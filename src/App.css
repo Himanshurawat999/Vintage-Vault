@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+/* FONT */
+.font-fraunces {
+  font-family: "Fraunces", serif;
+}
+
+.font-open-sans {
+  font-family: "Open Sans", sans-serif;
+}
+
+/* Fieldset Styles */
+.custom-fieldset {
+  border: none;
+  padding: 0.3rem 0 0.75rem 0;
+  margin-bottom: 0.3rem;
+  position: relative;
+}
+
+.custom-fieldset legend {
+  color: #1f2937; /* Zinc-900 */
+  font-weight: 500;
+  padding-left: 0.25rem;
+}
+
+/* Input Styles */
+.custom-input {
+  border: 1px solid #d1d5db; /* Gray-300 */
+  border-radius: 0.375rem; /* rounded-md */
+  padding: 0.25rem 0.75rem;
+  margin-left: 0.25rem;
+  /* margin-top: 0.25rem; */
+  background-color: #f3f4f6; /* Zinc-100 */
+  color: #1f2937; /* Zinc-800 */
+  transition: all 0.3s ease-in-out;
+  width: 90%;
+}
+
+.custom-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.5); /* Indigo-500/50 */
+}
+
+/* Error Styles */
+.custom-error {
+  color: #e7000cbd;
+  padding: 2px 0 0 4px;
+  margin-bottom: -8px;
+  font-size: 12px;
+}
+
+.custom-input-error {
+  border: 1px solid #f17c7c;
+  border-radius: 0.375rem; /* rounded-md */
+  padding: 0.25rem 0.75rem;
+  margin-left: 0.25rem;
+  /* margin-top: 0.25rem; */
+  background-color: #f5d3d3;
+  color: #1f2937; /* Zinc-800 */
+  transition: all 0.3s ease-in-out;
+  width: 90%;
+  
+}
+
+.custom-input-error:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(241, 99, 99, 0.5); /* Indigo-500/50 */
+}
