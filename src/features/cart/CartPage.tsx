@@ -1,20 +1,17 @@
 import { Minus, Plus, X } from "lucide-react";
 import { useGetCart } from "../../hooks/useGetCart";
 import { useQuantity } from "../../hooks/useQuantity";
-// import { useState } from "react";
 import { useRemoveCartItem } from "../../hooks/useRemoveCartItem";
 import { Link } from "react-router";
 import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
 
 const CartPage = () => {
-  // const [quantity, setQuantity] = useState<number>(0);
-
   const { data: cartDetails, isLoading, isError, error } = useGetCart();
   const cart = cartDetails?.data?.cart;
   console.log(cart);
 
-  const { mutate: updateQuantity, isPending } = useQuantity();
+  const { mutate: updateQuantity } = useQuantity();
   const { mutate: removeCartItem } = useRemoveCartItem();
 
   if (isLoading) return <p>Loading your cart...</p>;
@@ -35,6 +32,7 @@ const CartPage = () => {
   };
 
   const handleDelete = (productId: string) => {
+    console.log(productId)
     removeCartItem({ itemId: productId });
   };
 
@@ -45,14 +43,14 @@ const CartPage = () => {
         <div className="mt-8 lg:mt-12 flex flex-col lg:flex-row gap-8 lg:gap-14">
           <div className="lg:w-2/3">
             <h3 className="font-fraunces text-3xl text-gray-800 mb-2">
-              Order Summary
+              Cart Summary
             </h3>
             <div className="mb-10 flex items-center justify-between">
               <p className="text-lg text-gray-600">
                 Total items: {cart?.summary?.totalItems}
               </p>
               <p className="text-lg text-gray-600">
-                Total items: {cart?.summary?.totalQuantity}
+                Total quantity: {cart?.summary?.totalQuantity}
               </p>
             </div>
 
@@ -93,7 +91,7 @@ const CartPage = () => {
                   </div>
                   <X
                     className="w-5 text-gray-600 cursor-pointer"
-                    onClick={() => handleDelete(item.product.id)}
+                    onClick={() => handleDelete(item.id)}
                   />
                 </div>
               ))}
@@ -126,13 +124,13 @@ const CartPage = () => {
               <div className="flex justify-between mt-4 border-t border-gray-200 pt-4">
                 <span className="text-lg text-gray-600">Total</span>
                 <span className="text-xl font-semibold text-gray-800">
-                  ₹{cart?.summary?.estimatedTotal}
+                  ${cart?.summary?.estimatedTotal}
                 </span>
               </div>
             </div>
             <Link
               to="/shipping"
-              className="mt-6 inline-block w-full py-3 text-center text-lg font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-xs"
+              className="mt-6 inline-block w-full py-3 text-center text-lg font-medium text-white bg-orange-600 hover:bg-orange-700 rounded-lg shadow-xs"
             >
               Proceed to Checkout
             </Link>

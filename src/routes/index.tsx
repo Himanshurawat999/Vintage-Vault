@@ -11,6 +11,8 @@ import ResetPassword from "../features/auth/ResetPassword";
 import Products from "../features/products/Products";
 import UserProfile from "../features/users/UserProfile";
 import { Shipping } from "../features/shipping/Shipping";
+import OrderHistory from "../features/orders/OrderHistory";
+import OrderItem from "../features/orders/OrderItem";
 
 export const router = createBrowserRouter([
   {
@@ -26,8 +28,10 @@ export const router = createBrowserRouter([
       { path: "products", element: <Products /> },
       { path: "products/:id", element: <ProductDetails /> },
       { path: "cart", element: <CartPage /> },
-      {path: "shipping", element: <Shipping />},
+      { path: "shipping", element: <Shipping /> },
       { path: "orders", element: <OrdersPage /> },
+      {path: "orders/:id", element: <OrderItem />},
+      { path: "orders-history", element: <OrderHistory /> },
     ],
   },
 ]);

@@ -1,4 +1,4 @@
-import {  useQuery } from "@tanstack/react-query";
+import {  keepPreviousData, useQuery } from "@tanstack/react-query";
 import apiClient from "../api/apiClient";
 
 const getCategories = async () => {
@@ -7,5 +7,5 @@ const getCategories = async () => {
 }
 
 export const useCategories = () => {
-    return useQuery({ queryKey: ['categories'], queryFn: getCategories });
+    return useQuery({ queryKey: ['categories'], queryFn: getCategories, placeholderData: keepPreviousData });
 }

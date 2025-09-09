@@ -14,7 +14,7 @@ const Card = ({ product }: { product: any }) => {
   };
 
   return (
-    <div className="w-[75%] mx-auto sm:w-full h-96" onClick={handleClick}>
+    <div className="w-[75%] mx-auto sm:w-full h-96 cursor-pointer" onClick={handleClick}>
       <div className="w-full h-[80%] relative">
         <img
           src={product.images[0]}

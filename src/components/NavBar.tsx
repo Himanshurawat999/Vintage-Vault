@@ -12,7 +12,7 @@ const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { data: searchResult } = useSearch(searchTerm);
   const { data: userProfile } = useUserProfile();
-  console.log(userProfile);
+  // console.log(userProfile);
   const navigate = useNavigate();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -106,7 +106,7 @@ const NavBar = () => {
         <Search className="absolute top-0 right-2 w-4 text-zinc-600" />
         {showSuggestions && searchResult?.data?.products?.length > 0 && (
           <ul className="absolute top-full left-0 right-0 bg-white border max-h-60 overflow-auto z-10">
-            {searchResult.data.products.map((p) => (
+            {searchResult.data.products.map((p:any) => (
               <li
                 key={p.id}
                 className="px-2 py-1 hover:bg-gray-100 cursor-pointer"

@@ -1,5 +1,5 @@
 // src/hooks/useCreateOrder.ts
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "../api/apiClient";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router";
@@ -11,7 +11,7 @@ const createOrder = async (data: CreateOrder): Promise<any> => {
 };
 
 export const useCreateOrder = () => {
-  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: createOrder,
@@ -21,7 +21,7 @@ export const useCreateOrder = () => {
         position: "top-center",
         duration: 2000,
       });
-    //   navigate("/order-confirmation"); 
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
     },
     onError: (error: any) => {
       console.error("Order creation failed:", error?.response?.data?.error?.message);

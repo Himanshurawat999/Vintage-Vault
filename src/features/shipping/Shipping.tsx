@@ -14,20 +14,22 @@ import { useRemoveShipping } from "../../hooks/useRemoveShipping";
 export function Shipping() {
   const { data: addresses, isLoading } = useGetShipping();
   const { mutate: addShipping } = useAddShipping();
-  const {mutate: removeShipping} = useRemoveShipping()
-  console.log(addresses)
-  
+  const { mutate: removeShipping } = useRemoveShipping();
+  console.log("Address : ", addresses?.data?.addresses.length);
+
   const [showForm, setShowForm] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (addresses?.data?.addresses?.length === 0) setSelectedId(null);
     if (!isLoading && addresses?.data?.addresses) {
-      const defaultAddress = addresses.data.addresses.find((addr: any) => addr.isDefault);
+      const defaultAddress = addresses.data.addresses.find(
+        (addr: any) => addr.isDefault
+      );
       if (defaultAddress) setSelectedId(defaultAddress.id);
     }
   }, [isLoading, addresses]);
-
 
   const {
     register,
@@ -42,11 +44,13 @@ export function Shipping() {
   };
 
   const handleDeliver = () => {
-    navigate("/orders");
+    console.log("shippingId : ", selectedId);
+    // navigate(`/orders/${selectedId}`);
+    navigate(`/orders`, { state: { shippingId: selectedId } });
   };
 
-  const handleDelete = (shippingId:string) => {
-    removeShipping({itemId: shippingId})
+  const handleDelete = (shippingId: string) => {
+    removeShipping({ itemId: shippingId });
   };
 
   if (isLoading) return <p>Loading addresses...</p>;
