@@ -6,7 +6,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { LucideEye, LucideEyeClosed } from "lucide-react";
-import { useRegisterUser } from "../../hooks/useRegisterUser";
+import { useRegisterUser } from "../../hooks/userHooks/useRegisterUser";
 import { Link } from "react-router";
 import LoadingButton from "../../components/animata/LoadingButton";
 
@@ -125,11 +125,7 @@ const RegisterPage = () => {
             )}
           </fieldset>
 
-          <LoadingButton
-            isPending={isPending}
-            type="submit" 
-            text="Register"
-          />
+          <LoadingButton isPending={isPending} type="submit" text="Register" />
         </form>
 
         <p className="text-sm text-zinc-600 absolute bottom-1 right-4">

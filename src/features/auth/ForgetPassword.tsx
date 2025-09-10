@@ -5,7 +5,7 @@ import {
 } from "../../types/registration.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router";
-import { useForgetPassword } from "../../hooks/useForgetPassword";
+import { useForgetPassword } from "../../hooks/userHooks/useForgetPassword";
 import LoadingButton from "../../components/animata/LoadingButton";
 
 const ForgetPassword = () => {
@@ -27,9 +27,16 @@ const ForgetPassword = () => {
   return (
     <div className="w-[90%] lg:w-[80%] h-[90vh] mx-auto flex pt-8 rounded-sm overflow-hidden">
       <div id="left" className="hidden md:block md:w-1/2 h-full">
-        <img src="/Images/login.jpg" alt="img" className="w-full h-full object-cover" />
+        <img
+          src="/Images/login.jpg"
+          alt="img"
+          className="w-full h-full object-cover"
+        />
       </div>
-      <div id="right" className="w-full md:w-1/2 h-full px-4 py-4 lg:px-8 lg:py-6 lg:pl-14 bg-gray-50">
+      <div
+        id="right"
+        className="w-full md:w-1/2 h-full px-4 py-4 lg:px-8 lg:py-6 lg:pl-14 bg-gray-50"
+      >
         <h1 className="font-fraunces text-2xl lg:text-4xl text-zinc-900 mb-2">
           Forgot your password
         </h1>
@@ -53,11 +60,7 @@ const ForgetPassword = () => {
             )}
           </fieldset>
 
-          <LoadingButton
-            isPending={isPending}
-            type="submit" 
-            text="Submit"
-          />
+          <LoadingButton isPending={isPending} type="submit" text="Submit" />
         </form>
 
         <p className="text-sm text-zinc-600 absolute bottom-1 right-4">

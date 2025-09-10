@@ -1,6 +1,6 @@
-import Footer from "../../components/Footer";
-import HeroSection from "../../components/HeroSection";
-import NavBar from "../../components/NavBar";
+import Footer from "../../components/userComponent/Footer";
+import HeroSection from "../../components/userComponent/HeroSection";
+import NavBar from "../../components/userComponent/NavBar";
 import FAQ from "./FAQ";
 import BestSellers from "./BestSellers";
 

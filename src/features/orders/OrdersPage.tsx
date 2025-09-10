@@ -1,11 +1,10 @@
-import { useGetCart } from "../../hooks/useGetCart";
-import { useQuantity } from "../../hooks/useQuantity";
-import { useRemoveCartItem } from "../../hooks/useRemoveCartItem";
-import { Link, useLocation, useParams } from "react-router";
-import NavBar from "../../components/NavBar";
-import Footer from "../../components/Footer";
-import { useGetShipping } from "../../hooks/useGetShipping";
-import { useCreateOrder } from "../../hooks/useCreateOrder";
+import { useGetCart } from "../../hooks/userHooks/useGetCart";
+import { useQuantity } from "../../hooks/userHooks/useQuantity";
+import { useRemoveCartItem } from "../../hooks/userHooks/useRemoveCartItem";
+import { useLocation } from "react-router";
+import NavBar from "../../components/userComponent/NavBar";
+import { useGetShipping } from "../../hooks/userHooks/useGetShipping";
+import { useCreateOrder } from "../../hooks/userHooks/useCreateOrder";
 
 const OrdersPage = () => {
   const {
@@ -14,8 +13,6 @@ const OrdersPage = () => {
     isError,
     error,
   } = useGetCart();
-  const { mutate: updateQuantity } = useQuantity();
-  const { mutate: removeCartItem } = useRemoveCartItem();
   const { data: fetchShippingAddresses } = useGetShipping();
   const { mutate: createOrder, isPending: creatingOrder } = useCreateOrder();
   // const {shippingId} = useParams()

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useGetShipping } from "../../hooks/useGetShipping";
-import { useAddShipping } from "../../hooks/useAddShipping";
+import { useGetShipping } from "../../hooks/userHooks/useGetShipping";
+import { useAddShipping } from "../../hooks/userHooks/useAddShipping";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ShippingSchema,
@@ -9,7 +9,7 @@ import {
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { Trash } from "lucide-react";
-import { useRemoveShipping } from "../../hooks/useRemoveShipping";
+import { useRemoveShipping } from "../../hooks/userHooks/useRemoveShipping";
 
 export function Shipping() {
   const { data: addresses, isLoading } = useGetShipping();

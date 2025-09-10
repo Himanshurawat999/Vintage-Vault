@@ -13,6 +13,11 @@ import UserProfile from "../features/users/UserProfile";
 import { Shipping } from "../features/shipping/Shipping";
 import OrderHistory from "../features/orders/OrderHistory";
 import OrderItem from "../features/orders/OrderItem";
+import AdminLayout from "../features/admin/AdminLayout";
+import AdminOrder from "../features/admin/AdminOrder";
+import AdminProduct from "../features/admin/AdminProduct";
+import AdminCategory from "../features/admin/AdminCategory";
+import EditCategory from "../components/adminComponent/EditCategory";
 
 export const router = createBrowserRouter([
   {
@@ -30,8 +35,21 @@ export const router = createBrowserRouter([
       { path: "cart", element: <CartPage /> },
       { path: "shipping", element: <Shipping /> },
       { path: "orders", element: <OrdersPage /> },
-      {path: "orders/:id", element: <OrderItem />},
+      { path: "orders/:id", element: <OrderItem /> },
       { path: "orders-history", element: <OrderHistory /> },
+
+      //Admin panel
+      {
+        path: "admin",
+        element: <AdminLayout />,
+        children: [
+          {index: true, element: <AdminOrder />},
+          {path: "orders", element: <AdminOrder />},
+          {path: "products", element: <AdminProduct />},
+          {path: "category", element: <AdminCategory />},
+          {path: "category/:id", element: <EditCategory />},
+        ]
+      }
     ],
   },
 ]);

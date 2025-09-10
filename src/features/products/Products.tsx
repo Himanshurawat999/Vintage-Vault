@@ -1,9 +1,9 @@
 import { ChevronDown, ChevronUp } from "lucide-react";
-import Card from "../../components/Card";
-import Footer from "../../components/Footer";
-import NavBar from "../../components/NavBar";
-import { useCategories } from "../../hooks/useCategories";
-import { useProductsData } from "../../hooks/useProductsData";
+import Card from "../../components/userComponent/Card";
+import Footer from "../../components/userComponent/Footer";
+import NavBar from "../../components/userComponent/NavBar";
+import { useCategories } from "../../hooks/userHooks/useCategories";
+import { useProductsData } from "../../hooks/userHooks/useProductsData";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -50,7 +50,9 @@ const Products = () => {
             className="flex justify-between items-center mb-4 cursor-pointer hover:underline"
             onClick={() => setCatToggle(!catToggle)}
           >
-            <h3 className="font-fraunces font-light text-base sm:text-2xl">Categories</h3>
+            <h3 className="font-fraunces font-light text-base sm:text-2xl">
+              Categories
+            </h3>
             {catToggle ? (
               <ChevronUp className="w-5 h-5 text-zinc-400" />
             ) : (

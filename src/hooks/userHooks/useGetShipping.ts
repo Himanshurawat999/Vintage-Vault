@@ -1,6 +1,6 @@
 // src/hooks/useGetShipping.ts
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import apiClient from "../api/apiClient";
+import apiClient from "../../api/apiClient";
 
 const fetchShippingAddresses = async (): Promise<any> => {
   const res = await apiClient.get("/shipping-addresses");

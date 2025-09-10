@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
-import apiClient from "../api/apiClient";
+import apiClient from "../../api/apiClient";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router";
-import type { ShippingFormInput } from "../types/shipping.schema";
+import type { ShippingFormInput } from "../../types/shipping.schema";
 
 const addShipping = async (data: ShippingFormInput): Promise<any> => {
     const res = await apiClient.post('/shipping-addresses', data);
@@ -18,7 +18,7 @@ export const useAddShipping = () => {
             toast.success(data.message, {
                 position: 'top-center',
                 duration: 2000,
-              });
+            });
             navigate("/orders")
         },
         onError: (error) => {

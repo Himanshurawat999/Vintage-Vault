@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useProductDetails } from "../hooks/useProductDetails";
+import { useProductDetails } from "../../hooks/userHooks/useProductDetails";
 import { useNavigate } from "react-router";
 
 const Card = ({ product }: { product: any }) => {
@@ -10,11 +10,14 @@ const Card = ({ product }: { product: any }) => {
 
   const handleClick = () => {
     setProductId(product.id);
-    navigate(`/products/${product.id}`)
+    navigate(`/products/${product.id}`);
   };
 
   return (
-    <div className="w-[75%] mx-auto sm:w-full h-96 cursor-pointer" onClick={handleClick}>
+    <div
+      className="w-[75%] mx-auto sm:w-full h-96 cursor-pointer"
+      onClick={handleClick}
+    >
       <div className="w-full h-[80%] relative">
         <img
           src={product.images[0]}

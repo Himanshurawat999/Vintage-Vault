@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
-import NavBar from "../../components/NavBar";
-import { useGetOrder } from "../../hooks/useOrder";
+import NavBar from "../../components/userComponent/NavBar";
+import { useGetOrder } from "../../hooks/userHooks/useOrder";
 
 const OrderHistory = () => {
   const { data: fetchOrder } = useGetOrder();
@@ -9,7 +9,7 @@ const OrderHistory = () => {
 
   const handleMore = (orderId: string) => {
     console.log(orderId);
-    navigate(`/orders/${orderId}`)
+    navigate(`/orders/${orderId}`);
   };
 
   return (

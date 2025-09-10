@@ -3,7 +3,7 @@ import { loginSchema, type loginInput } from "../../types/registration.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { LucideEye, LucideEyeClosed } from "lucide-react";
-import { useLoginUser } from "../../hooks/useLoginUser";
+import { useLoginUser } from "../../hooks/userHooks/useLoginUser";
 import { Link, useNavigate } from "react-router";
 import LoadingButton from "../../components/animata/LoadingButton";
 
@@ -103,11 +103,7 @@ const LoginPage = () => {
             )}
           </fieldset>
 
-          <LoadingButton
-            isPending={isPending}
-            type="submit" 
-            text="Login"
-          />
+          <LoadingButton isPending={isPending} type="submit" text="Login" />
         </form>
 
         <p className="text-sm text-zinc-600 absolute bottom-1 right-4">

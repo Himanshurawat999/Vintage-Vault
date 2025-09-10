@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import apiClient from "../api/apiClient"
+import apiClient from "../../api/apiClient"
 import toast from "react-hot-toast";
 
 const removeShipping = async ({ itemId }: { itemId: string }) => {

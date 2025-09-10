@@ -1,31 +1,40 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import apiClient from '../api/apiClient';
+import apiClient from '../../api/apiClient';
 import { toast } from 'react-hot-toast';
-import type { AddCartInput, CartResponse } from '../types/cart.schema';
 
-const addCartItem = async (payload: AddCartInput): Promise<CartResponse> => {
-  const res = await apiClient.post('/users/cart/items', payload);
+type UpdateQuantityInput = {
+  itemId: string;
+  quantity: number;
+};
+
+const updateQuantity = async ({
+  itemId,
+  quantity,
+}: UpdateQuantityInput): Promise<any> => {
+  const res = await apiClient.patch(`/users/cart/items/${itemId}`, {
+    "quantity": quantity,
+  });
   return res.data;
 };
 
-export const useAddCart = () => {
+export const useQuantity = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: addCartItem,
+    mutationFn: updateQuantity,
     onSuccess: (data) => {
-      toast.success(data.message, {
+      toast.success(data.message || 'Quantity updated', {
         position: 'top-center',
         duration: 2000,
       });
-      // Invalidate or refresh cart queries
+      // Refresh cart query
       queryClient.invalidateQueries({ queryKey: ['cart'] });
     },
     onError: (error: any) => {
       const message =
         error?.response?.data?.error?.message ||
         error?.message ||
-        'Failed to add to cart';
+        'Failed to update quantity';
       toast.error(message, {
         position: 'top-center',
       });

@@ -1,10 +1,10 @@
 import { Minus, Plus, X } from "lucide-react";
-import { useGetCart } from "../../hooks/useGetCart";
-import { useQuantity } from "../../hooks/useQuantity";
-import { useRemoveCartItem } from "../../hooks/useRemoveCartItem";
+import { useGetCart } from "../../hooks/userHooks/useGetCart";
+import { useQuantity } from "../../hooks/userHooks/useQuantity";
+import { useRemoveCartItem } from "../../hooks/userHooks/useRemoveCartItem";
 import { Link } from "react-router";
-import NavBar from "../../components/NavBar";
-import Footer from "../../components/Footer";
+import NavBar from "../../components/userComponent/NavBar";
+import Footer from "../../components/userComponent/Footer";
 
 const CartPage = () => {
   const { data: cartDetails, isLoading, isError, error } = useGetCart();
@@ -32,7 +32,7 @@ const CartPage = () => {
   };
 
   const handleDelete = (productId: string) => {
-    console.log(productId)
+    console.log(productId);
     removeCartItem({ itemId: productId });
   };
 

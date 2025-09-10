@@ -1,9 +1,9 @@
 // src/hooks/useCreateOrder.ts
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import apiClient from "../api/apiClient";
+import apiClient from "../../api/apiClient";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router";
-import type { CreateOrder } from "../types/order.schema";
+import type { CreateOrder } from "../../types/order.schema";
 
 const createOrder = async (data: CreateOrder): Promise<any> => {
   const res = await apiClient.post("/orders", data);

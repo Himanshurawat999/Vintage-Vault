@@ -1,4 +1,4 @@
-import { useUserProfile } from "../../hooks/useUserProfile";
+import { useUserProfile } from "../../hooks/userHooks/useUserProfile";
 
 const UserProfile = () => {
   const { data: userProfile, isLoading } = useUserProfile();
@@ -11,9 +11,16 @@ const UserProfile = () => {
           <img src="/Images/userPic.jpg" alt="userPic" />
         </div>
       </div>
-      <div id="right" className="w-1/2 flex flex-col items-center justify-center">
-        <p className="text-9xl font-fraunces">{userProfile?.data?.user?.firstName}</p>
-        <p className="text-9xl font-fraunces">{userProfile?.data?.user?.lastName}</p>
+      <div
+        id="right"
+        className="w-1/2 flex flex-col items-center justify-center"
+      >
+        <p className="text-9xl font-fraunces">
+          {userProfile?.data?.user?.firstName}
+        </p>
+        <p className="text-9xl font-fraunces">
+          {userProfile?.data?.user?.lastName}
+        </p>
       </div>
     </div>
   );

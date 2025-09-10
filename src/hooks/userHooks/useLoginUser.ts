@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
-import apiClient from "../api/apiClient";
-import type { RegisterResponse, loginInput } from "../types/registration.schema";
+import apiClient from "../../api/apiClient";
+import type { RegisterResponse, loginInput } from "../../types/registration.schema";
 import { toast } from "react-hot-toast";
-import { useAuthStore } from "../store/authStore";
+import { useAuthStore } from "../../store/authStore";
 
 
 
@@ -26,7 +26,7 @@ export const useLoginUser = () => {
             toast.success(data.message || 'Login Successfull', {
                 position: 'top-center',
                 duration: 2000,
-              });
+            });
 
         },
         onError: (error) => {

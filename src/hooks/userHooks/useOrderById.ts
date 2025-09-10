@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import apiClient from "../api/apiClient"
+import apiClient from "../../api/apiClient"
 
 const getOrderById = async (orderId?: string | null) => {
     const res = await apiClient.get(`/orders/${orderId}`)

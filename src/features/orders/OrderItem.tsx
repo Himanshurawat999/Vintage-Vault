@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
-import { useOrderById } from "../../hooks/useOrderById";
-import NavBar from "../../components/NavBar";
+import { useOrderById } from "../../hooks/userHooks/useOrderById";
+import NavBar from "../../components/userComponent/NavBar";
 
 const OrderItem = () => {
   const { id } = useParams();

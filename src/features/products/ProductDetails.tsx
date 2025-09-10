@@ -1,11 +1,10 @@
 import { useParams } from "react-router";
-import { useProductDetails } from "../../hooks/useProductDetails";
-import NavBar from "../../components/NavBar";
-import Footer from "../../components/Footer";
+import { useProductDetails } from "../../hooks/userHooks/useProductDetails";
+import NavBar from "../../components/userComponent/NavBar";
+import Footer from "../../components/userComponent/Footer";
 import { Minus, Plus, Star, Truck } from "lucide-react";
 import { useState } from "react";
-import { useAddCart } from "../../hooks/useAddCart";
-
+import { useAddCart } from "../../hooks/userHooks/useAddCart";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -39,7 +38,10 @@ const ProductDetails = () => {
     <>
       <NavBar />
       <div className="w-full sm:px-12 md:px-20 pt-28 mb-20 flex flex-col sm:flex-row gap-x-10 lg:gap-x-24">
-        <div id="left" className="w-[80%] mx-auto sm:w-1/2 h-[400px] sm:h-full lg:h-[500px]">
+        <div
+          id="left"
+          className="w-[80%] mx-auto sm:w-1/2 h-[400px] sm:h-full lg:h-[500px]"
+        >
           <div className="w-full h-full">
             <img
               src={product?.images[0]}
@@ -49,7 +51,10 @@ const ProductDetails = () => {
           </div>
         </div>
 
-        <div id="right" className="w-[80%] mx-auto sm:w-1/2 h-full py-6 text-zinc-800">
+        <div
+          id="right"
+          className="w-[80%] mx-auto sm:w-1/2 h-full py-6 text-zinc-800"
+        >
           <h2 className="text-3xl font-fraunces">{product?.name}</h2>
           <div className="mt-2 flex gap-4 items-center">
             <div className="flex gap-0.5">

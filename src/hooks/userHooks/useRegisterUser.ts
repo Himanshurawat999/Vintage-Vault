@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import apiClient from "../api/apiClient";
-import type { RegisterResponse, RegistrationInput } from "../types/registration.schema";
+import apiClient from "../../api/apiClient";
+import type { RegisterResponse, RegistrationInput } from "../../types/registration.schema";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router";
 // const navigate = useNavigate();
@@ -20,7 +20,7 @@ export const useRegisterUser = () => {
             toast.success(data.message || 'Registration Successfull', {
                 position: 'top-center',
                 duration: 2000,
-              });
+            });
         },
         onError: (error) => {
             console.error('Registration failed : ', error?.response?.data?.error?.message)

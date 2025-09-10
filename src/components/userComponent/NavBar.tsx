@@ -1,8 +1,8 @@
 import { Menu, Search, SquareUser, X } from "lucide-react";
 import { useState, type ChangeEvent } from "react";
 import { Link, useNavigate } from "react-router";
-import { useSearch } from "../hooks/useSearch";
-import { useUserProfile } from "../hooks/useUserProfile";
+import { useSearch } from "../../hooks/userHooks/useSearch";
+import { useUserProfile } from "../../hooks/userHooks/useUserProfile";
 import { motion, AnimatePresence } from "motion/react";
 
 const NavBar = () => {
@@ -46,11 +46,12 @@ const NavBar = () => {
       >
         Vintage Vault
       </Link>
-      <button
-        onClick={toggleMenu}
-        className="z-50 md:hidden"
-      >
-        {menuOpen ? <X className="w-4 text-zinc-600" /> : <Menu className="w-4 text-zinc-600" />}
+      <button onClick={toggleMenu} className="z-50 md:hidden">
+        {menuOpen ? (
+          <X className="w-4 text-zinc-600" />
+        ) : (
+          <Menu className="w-4 text-zinc-600" />
+        )}
       </button>
       <AnimatePresence>
         {menuOpen && (
@@ -81,11 +82,7 @@ const NavBar = () => {
               <Link to="/" onClick={toggleMenu} className="py-2">
                 Home
               </Link>
-              <Link
-                to="/products"
-                onClick={toggleMenu}
-                className="py-2"
-              >
+              <Link to="/products" onClick={toggleMenu} className="py-2">
                 Product
               </Link>
               <Link to="/cart" onClick={toggleMenu} className="py-2">
@@ -106,7 +103,7 @@ const NavBar = () => {
         <Search className="absolute top-0 right-2 w-4 text-zinc-600" />
         {showSuggestions && searchResult?.data?.products?.length > 0 && (
           <ul className="absolute top-full left-0 right-0 bg-white border max-h-60 overflow-auto z-10">
-            {searchResult.data.products.map((p:any) => (
+            {searchResult.data.products.map((p: any) => (
               <li
                 key={p.id}
                 className="px-2 py-1 hover:bg-gray-100 cursor-pointer"
@@ -138,17 +135,26 @@ const NavBar = () => {
           Cart
         </Link>
         <li className="relative hidden md:block">
-          <SquareUser onClick={handleProfile} className="text-zinc-600 hover:text-orange-500"/>
+          <SquareUser
+            onClick={handleProfile}
+            className="text-zinc-600 hover:text-orange-500"
+          />
           {showProfile && (
             <div className="absolute w-28 px-2 top-7 -right-6 bg-white border max-h-60 z-10">
-              <p>{userProfile.data.user.firstName} {userProfile.data.user.lastName}</p>
+              <p>
+                {userProfile.data.user.firstName}{" "}
+                {userProfile.data.user.lastName}
+              </p>
             </div>
           )}
         </li>
       </ul>
 
       <div className="relative block md:hidden">
-        <SquareUser onClick={handleProfile} className="text-zinc-600 hover:text-orange-500 w-4"/>
+        <SquareUser
+          onClick={handleProfile}
+          className="text-zinc-600 hover:text-orange-500 w-4"
+        />
         {showProfile && (
           <div className="absolute w-28 px-2 top-7 -right-6 bg-white border max-h-60 z-10">
             <p>

@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import apiClient from "../api/apiClient";
-import type { ResetResponse, resetInput } from "../types/registration.schema";
+import apiClient from "../../api/apiClient";
+import type { ResetResponse, resetInput } from "../../types/registration.schema";
 import { toast } from "react-hot-toast";
 
 const resetPassword = async (data: resetInput): Promise<ResetResponse> => {
