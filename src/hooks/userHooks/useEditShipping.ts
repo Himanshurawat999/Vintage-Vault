@@ -4,16 +4,16 @@ import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router";
 import type { ShippingFormInput } from "../../types/shipping.schema";
 
-const addShipping = async (data: ShippingFormInput): Promise<any> => {
-    const res = await apiClient.post('/shipping-addresses', data);
+const editShipping = async ({shippingId, payload}:{shippingId:string, payload: ShippingFormInput}): Promise<any> => {
+    const res = await apiClient.patch(`/shipping-addresses/${shippingId}`, payload);
     return res.data;
 }
 
-export const useAddShipping = () => {
+export const useEditShipping = () => {
     const navigate = useNavigate()
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: addShipping,
+        mutationFn: editShipping,
         onSuccess: (data) => {
             console.log('Address Successful : ', data);
             toast.success(data.message, {

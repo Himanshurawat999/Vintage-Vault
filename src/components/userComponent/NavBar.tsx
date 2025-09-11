@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router";
 import { useSearch } from "../../hooks/userHooks/useSearch";
 import { useUserProfile } from "../../hooks/userHooks/useUserProfile";
 import { motion, AnimatePresence } from "motion/react";
+import { useGetCart } from "../../hooks/userHooks/useGetCart";
 
 const NavBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -12,7 +13,11 @@ const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { data: searchResult } = useSearch(searchTerm);
   const { data: userProfile } = useUserProfile();
+  const { data: fetchCart } = useGetCart();
+  const cartLen = fetchCart?.data?.cart?.items?.length === 0 ? null : fetchCart?.data?.cart?.items?.length;
+  console.log(fetchCart?.data?.cart?.items?.length);
   // console.log(userProfile);
+
   const navigate = useNavigate();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -130,11 +135,14 @@ const NavBar = () => {
         </Link>
         <Link
           to={"/cart"}
-          className="hover:text-orange-500 hover:underline hover:underline-offset-4"
+          className="hover:text-orange-500 hover:underline hover:underline-offset-4 relative"
         >
           Cart
+          <span className="absolute -top-1.5 text-[10px] text-white rounded-full px-1 bg-orange-500">
+            {cartLen}
+          </span>
         </Link>
-        <li className="relative hidden md:block">
+        <li className="relative hidden md:block ml-1">
           <SquareUser
             onClick={handleProfile}
             className="text-zinc-600 hover:text-orange-500"

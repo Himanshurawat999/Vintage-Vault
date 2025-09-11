@@ -13,7 +13,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isSuccess) navigate("/", { replace: true });
+    // if (isSuccess) navigate("/", { replace: true });
   }, [isSuccess]);
 
   const {

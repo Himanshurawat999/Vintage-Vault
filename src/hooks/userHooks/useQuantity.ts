@@ -28,6 +28,7 @@ export const useQuantity = () => {
         duration: 2000,
       });
       // Refresh cart query
+      console.log(data)
       queryClient.invalidateQueries({ queryKey: ['cart'] });
     },
     onError: (error: any) => {

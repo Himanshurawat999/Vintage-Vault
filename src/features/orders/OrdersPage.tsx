@@ -1,6 +1,4 @@
 import { useGetCart } from "../../hooks/userHooks/useGetCart";
-import { useQuantity } from "../../hooks/userHooks/useQuantity";
-import { useRemoveCartItem } from "../../hooks/userHooks/useRemoveCartItem";
 import { useLocation } from "react-router";
 import NavBar from "../../components/userComponent/NavBar";
 import { useGetShipping } from "../../hooks/userHooks/useGetShipping";
@@ -156,7 +154,7 @@ const OrdersPage = () => {
             <button
               onClick={handleConfirm}
               disabled={creatingOrder}
-              className={`mt-6 inline-block w-full py-3 text-center text-lg font-medium text-white ${
+              className={`mt-6 inline-block w-full py-3 text-center text-lg font-medium text-white cursor-pointer ${
                 creatingOrder ? "bg-orange-400" : "bg-orange-600"
               }   hover:bg-orange-700 rounded-lg shadow-xs`}
             >

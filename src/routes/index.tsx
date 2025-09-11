@@ -17,39 +17,71 @@ import AdminLayout from "../features/admin/AdminLayout";
 import AdminOrder from "../features/admin/AdminOrder";
 import AdminProduct from "../features/admin/AdminProduct";
 import AdminCategory from "../features/admin/AdminCategory";
-import EditCategory from "../components/adminComponent/EditCategory";
+import ProtectedRoute from "./ProtectedRoute";
+import Page404 from "../components/userComponent/Page404";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-      { path: "", element: <HomePage /> },
+      // Pulic Route
       { path: "login", element: <LoginPage /> },
       { path: "register", element: <RegisterPage /> },
       { path: "forget", element: <ForgetPassword /> },
       { path: "reset-password", element: <ResetPassword /> },
-      { path: "profile", element: <UserProfile /> },
-      { path: "products", element: <Products /> },
-      { path: "products/:id", element: <ProductDetails /> },
-      { path: "cart", element: <CartPage /> },
-      { path: "shipping", element: <Shipping /> },
-      { path: "orders", element: <OrdersPage /> },
-      { path: "orders/:id", element: <OrderItem /> },
-      { path: "orders-history", element: <OrderHistory /> },
+      
 
-      //Admin panel
+      // Protected routes for users
+      { path: "", element: <ProtectedRoute element={<HomePage />} isUserRoute={true}/> },
+      {
+        path: "profile",
+        element: <ProtectedRoute element={<UserProfile />}  isUserRoute={true}/>,
+      },
+      {
+        path: "products",
+        element: <ProtectedRoute element={<Products />}  isUserRoute={true}/>,
+      },
+      {
+        path: "products/:id",
+        element: <ProtectedRoute element={<ProductDetails />}  isUserRoute={true}/>,
+      },
+      {
+        path: "cart",
+        element: <ProtectedRoute element={<CartPage />}  isUserRoute={true}/>,
+      },
+      {
+        path: "shipping",
+        element: <ProtectedRoute element={<Shipping />}  isUserRoute={true}/>,
+      },
+      {
+        path: "orders",
+        element: <ProtectedRoute element={<OrdersPage />}  isUserRoute={true}/>,
+      },
+      {
+        path: "orders/:id",
+        element: <ProtectedRoute element={<OrderItem />}  isUserRoute={true}/>,
+      },
+      {
+        path: "orders-history",
+        element: <ProtectedRoute element={<OrderHistory />}  isUserRoute={true}/>,
+      },
+
+      //Protect routes for Admin
       {
         path: "admin",
-        element: <AdminLayout />,
+        element: (
+          <ProtectedRoute element={<AdminLayout />} isAdminRequired={true} />
+        ),
         children: [
-          {index: true, element: <AdminOrder />},
-          {path: "orders", element: <AdminOrder />},
-          {path: "products", element: <AdminProduct />},
-          {path: "category", element: <AdminCategory />},
-          {path: "category/:id", element: <EditCategory />},
-        ]
-      }
+          { index: true, element: <AdminOrder /> },
+          { path: "orders", element: <AdminOrder /> },
+          { path: "products", element: <AdminProduct /> },
+          { path: "category", element: <AdminCategory /> },
+        ],
+      },
+
+      { path: "*", element: <Page404 /> },
     ],
   },
 ]);

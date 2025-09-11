@@ -74,7 +74,7 @@ const CartPage = () => {
                         {item.product.name}
                       </p>
                       <p className="text-lg font-semibold text-gray-900">
-                        ${item.product.price * item.quantity}
+                        ${(item.product.price * item.quantity).toFixed(2)}
                       </p>
                       <div className="flex items-center gap-4">
                         <Minus

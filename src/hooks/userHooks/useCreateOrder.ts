@@ -12,15 +12,20 @@ const createOrder = async (data: CreateOrder): Promise<any> => {
 
 export const useCreateOrder = () => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   return useMutation({
     mutationFn: createOrder,
     onSuccess: (data) => {
       console.log("Order placed successfully:", data);
+      console.log(data?.order?.id)
+      data && navigate(`${data?.data?.order?.id}`, { replace: true })
+
       toast.success("Order placed successfully!", {
         position: "top-center",
         duration: 2000,
       });
+
       queryClient.invalidateQueries({ queryKey: ['cart'] });
     },
     onError: (error: any) => {

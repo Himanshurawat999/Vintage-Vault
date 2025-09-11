@@ -52,18 +52,18 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
         >
           <motion.div
             ref={modalRef}
-            className="relative bg-white rounded-lg shadow-lg max-w-md w-full p-6 pr-0"
+            className="relative bg-white rounded-lg shadow-lg max-w-md w-full p-6 pr-0 max-h-[90%] overflow-y-scroll"
             variants={modalVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
           >
-            <div
+            <button
               onClick={onClose}
               className="absolute top-4 right-4 text-gray-400 hover:text-orange-600 cursor-pointer"
             >
               <X className="w-5" />
-            </div>
+            </button>
             {children}
           </motion.div>
         </motion.div>

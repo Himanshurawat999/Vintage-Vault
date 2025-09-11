@@ -3,7 +3,7 @@ import { Plus } from "lucide-react";
 import Modal from "../../components/adminComponent/Modal";
 import AddCategoryForm from "../../components/adminComponent/AddCategoryForm";
 import { useCategories } from "../../hooks/userHooks/useCategories";
-import { useNavigate, useSearchParams } from "react-router";
+import { useSearchParams } from "react-router";
 import EditCategory from "../../components/adminComponent/EditCategory";
 import { useDeleteCategory } from "../../hooks/adminHooks/useDeleteCategory";
 
@@ -11,8 +11,7 @@ type ModalMode = "add" | "edit" | null;
 
 const AdminCategory: React.FC = () => {
   const [modalMode, setModalMode] = useState<ModalMode>(null);
-  const navigate = useNavigate();
-  const [_, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
 
   const { data: categoriesData } = useCategories();
   const { mutate: deleteCateroy } = useDeleteCategory();
