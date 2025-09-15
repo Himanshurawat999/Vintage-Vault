@@ -91,6 +91,7 @@ const EditCategory = () => {
                 <input
                   {...register("isActive")}
                   type="checkbox"
+                  className="checkbox"
                 />
                 <span>Active</span>
               </label>

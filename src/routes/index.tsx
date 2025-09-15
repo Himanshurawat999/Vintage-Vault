@@ -19,52 +19,89 @@ import AdminProduct from "../features/admin/AdminProduct";
 import AdminCategory from "../features/admin/AdminCategory";
 import ProtectedRoute from "./ProtectedRoute";
 import Page404 from "../components/userComponent/Page404";
+import { ScrollRestoration } from "react-router";
+import WishList from "../features/wishlist/WishList";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <>
+        <App />
+        <ScrollRestoration
+          getKey={(location) => {
+            // Check if the current route is the homepage
+            if (location.pathname === "/") {
+              window.scrollTo(0,0)
+              return "home";
+            }
+
+            // Restore based on pathname
+            // return location.pathname;
+
+            // Restore based on a unique location key (default behavior)
+            return location.key;
+          }}
+        />
+      </>
+    ),
     children: [
       // Pulic Route
       { path: "login", element: <LoginPage /> },
       { path: "register", element: <RegisterPage /> },
       { path: "forget", element: <ForgetPassword /> },
       { path: "reset-password", element: <ResetPassword /> },
-      
 
       // Protected routes for users
-      { path: "", element: <ProtectedRoute element={<HomePage />} isUserRoute={true}/> },
+      {
+        path: "",
+        element: <ProtectedRoute element={<HomePage />} isUserRoute={true} />,
+      },
+      {
+        path: "/user-profile",
+        element: <ProtectedRoute element={<UserProfile />} isUserRoute={true} />,
+      },
       {
         path: "profile",
-        element: <ProtectedRoute element={<UserProfile />}  isUserRoute={true}/>,
+        element: (
+          <ProtectedRoute element={<UserProfile />} isUserRoute={true} />
+        ),
       },
       {
         path: "products",
-        element: <ProtectedRoute element={<Products />}  isUserRoute={true}/>,
+        element: <ProtectedRoute element={<Products />} isUserRoute={true} />,
       },
       {
         path: "products/:id",
-        element: <ProtectedRoute element={<ProductDetails />}  isUserRoute={true}/>,
+        element: (
+          <ProtectedRoute element={<ProductDetails />} isUserRoute={true} />
+        ),
       },
       {
         path: "cart",
-        element: <ProtectedRoute element={<CartPage />}  isUserRoute={true}/>,
+        element: <ProtectedRoute element={<CartPage />} isUserRoute={true} />,
+      },
+      {
+        path: "wishlist",
+        element: <ProtectedRoute element={<WishList />} isUserRoute={true} />,
       },
       {
         path: "shipping",
-        element: <ProtectedRoute element={<Shipping />}  isUserRoute={true}/>,
+        element: <ProtectedRoute element={<Shipping />} isUserRoute={true} />,
       },
       {
         path: "orders",
-        element: <ProtectedRoute element={<OrdersPage />}  isUserRoute={true}/>,
+        element: <ProtectedRoute element={<OrdersPage />} isUserRoute={true} />,
       },
       {
         path: "orders/:id",
-        element: <ProtectedRoute element={<OrderItem />}  isUserRoute={true}/>,
+        element: <ProtectedRoute element={<OrderItem />} isUserRoute={true} />,
       },
       {
         path: "orders-history",
-        element: <ProtectedRoute element={<OrderHistory />}  isUserRoute={true}/>,
+        element: (
+          <ProtectedRoute element={<OrderHistory />} isUserRoute={true} />
+        ),
       },
 
       //Protect routes for Admin

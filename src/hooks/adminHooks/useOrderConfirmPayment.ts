@@ -1,18 +1,18 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 import apiClient from '../../api/apiClient';
-import type { OrderStatusValues } from '../../types/orderStatus.schema';
+import type { OrderConfirmPaymentValues } from '../../types/orderStatus.schema';
 
-const orderStatus = async ({ orderId, payload }: { orderId: string, payload: OrderStatusValues }): Promise<any> => {
-    const res = await apiClient.patch(`/orders/${orderId}/status`, payload);
+const orderConfirmPayment = async ({ orderId, payload }: { orderId: string, payload: OrderConfirmPaymentValues}): Promise<any> => {
+    const res = await apiClient.patch(`/orders/${orderId}/confirm-payment`, payload);
     return res.data;
 };
 
-export const useOrderStatus = () => {
+export const useOrderConfirmPayment = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: orderStatus,
+        mutationFn: orderConfirmPayment,
         onSuccess: (data) => {
             toast.success(data.message, {
                 position: 'top-center',

@@ -12,8 +12,8 @@ const ProtectedRoute = ({
 }) => {
   const { user, token } = useAuthStore();
 
-  console.log("Proted user : ", user);
-  console.log("Proted token : ", token);
+  // console.log("Proted user : ", user);
+  // console.log("Proted token : ", token);
 
   if (user === undefined || token === undefined) {
     return <p>Loading...</p>;

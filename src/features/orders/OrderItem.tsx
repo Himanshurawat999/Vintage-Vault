@@ -47,6 +47,8 @@ const OrderItem = () => {
                 <th>Quantity</th>
                 <th>Weight</th>
                 <th>Amount</th>
+                <th>Tax</th>
+                <th>Total Amount</th>
               </tr>
             </thead>
             <tbody>
@@ -58,10 +60,20 @@ const OrderItem = () => {
                     {item.weight} {item.weightUnit}
                   </td>
                   <td>${item.totalPrice}</td>
+                  <td>${(item.totalPrice * 0.085).toFixed(2)}</td>
+                  <td>
+                    $
+                    {(
+                      item.totalPrice * 0.085 +
+                      Number(item.totalPrice)
+                    ).toFixed(2)}
+                  </td>
                 </tr>
               ))}
               <tr>
-                <td className="font-medium">Total Price</td>
+                <td className="font-medium">Subtotal Price</td>
+                <td></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td className="font-medium">${order?.totalAmount}</td>

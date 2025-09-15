@@ -1,6 +1,9 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { productSchema, type AddProductFormValues } from "../../types/product.schema";
+import {
+  productSchema,
+  type AddProductFormValues,
+} from "../../types/product.schema";
 import LoadingButton from "../../components/animata/LoadingButton";
 import { useAddProduct } from "../../hooks/adminHooks/useAddProduct";
 
@@ -23,7 +26,6 @@ const AddProductForm = () => {
   return (
     <div className="mb-4">
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-        
         {/* Product Name */}
         <fieldset className="custom-fieldset">
           <legend>Product Name</legend>
@@ -41,9 +43,13 @@ const AddProductForm = () => {
           <textarea
             {...register("description")}
             placeholder="Enter product description"
-            className={`${errors.description ? "custom-input-error" : "custom-input"}`}
+            className={`${
+              errors.description ? "custom-input-error" : "custom-input"
+            }`}
           />
-          {errors.description && <p className="custom-error">{errors.description.message}</p>}
+          {errors.description && (
+            <p className="custom-error">{errors.description.message}</p>
+          )}
         </fieldset>
 
         {/* Price */}
@@ -54,9 +60,13 @@ const AddProductForm = () => {
             step="0.01"
             {...register("price")}
             placeholder="Enter price"
-            className={`${errors.price ? "custom-input-error" : "custom-input"}`}
+            className={`${
+              errors.price ? "custom-input-error" : "custom-input"
+            }`}
           />
-          {errors.price && <p className="custom-error">{errors.price.message}</p>}
+          {errors.price && (
+            <p className="custom-error">{errors.price.message}</p>
+          )}
         </fieldset>
 
         {/* Weight */}
@@ -67,9 +77,13 @@ const AddProductForm = () => {
             step="0.001"
             {...register("weight")}
             placeholder="Enter weight"
-            className={`${errors.weight ? "custom-input-error" : "custom-input"}`}
+            className={`${
+              errors.weight ? "custom-input-error" : "custom-input"
+            }`}
           />
-          {errors.weight && <p className="custom-error">{errors.weight.message}</p>}
+          {errors.weight && (
+            <p className="custom-error">{errors.weight.message}</p>
+          )}
         </fieldset>
 
         {/* Weight Unit */}
@@ -77,7 +91,9 @@ const AddProductForm = () => {
           <legend>Weight Unit</legend>
           <select
             {...register("weightUnit")}
-            className={`${errors.weightUnit ? "custom-input-error" : "custom-input"}`}
+            className={`${
+              errors.weightUnit ? "custom-input-error" : "custom-input"
+            }`}
           >
             <option value="">Select unit</option>
             <option value="kg">Kilograms (kg)</option>
@@ -85,7 +101,28 @@ const AddProductForm = () => {
             <option value="lb">Pounds (lb)</option>
             <option value="oz">Ounces (oz)</option>
           </select>
-          {errors.weightUnit && <p className="custom-error">{errors.weightUnit.message}</p>}
+          {errors.weightUnit && (
+            <p className="custom-error">{errors.weightUnit.message}</p>
+          )}
+        </fieldset>
+
+        {/* status */}
+        <fieldset className="custom-fieldset">
+          <legend>Status</legend>
+          <select
+            {...register("status")}
+            className={`${
+              errors.status ? "custom-input-error" : "custom-input"
+            }`}
+          >
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+            <option value="draft">Draft</option>
+            <option value="discountinued">Discountinued</option>
+          </select>
+          {errors.weightUnit && (
+            <p className="custom-error">{errors.weightUnit.message}</p>
+          )}
         </fieldset>
 
         {/* Inventory Quantity */}
@@ -95,22 +132,25 @@ const AddProductForm = () => {
             type="number"
             {...register("inventoryQuantity")}
             placeholder="Enter inventory quantity"
-            className={`${errors.inventoryQuantity ? "custom-input-error" : "custom-input"}`}
+            className={`${
+              errors.inventoryQuantity ? "custom-input-error" : "custom-input"
+            }`}
           />
-          {errors.inventoryQuantity && <p className="custom-error">{errors.inventoryQuantity.message}</p>}
+          {errors.inventoryQuantity && (
+            <p className="custom-error">{errors.inventoryQuantity.message}</p>
+          )}
         </fieldset>
 
         {/* Allow Backorder */}
         <fieldset className="custom-fieldset">
           <legend>Allow Backorder</legend>
           <label className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              {...register("allowBackorder")}
-            />
+            <input type="checkbox" className="checkbox" {...register("allowBackorder")} />
             <span>Allow Backorder</span>
           </label>
-          {errors.allowBackorder && <p className="custom-error">{errors.allowBackorder.message}</p>}
+          {errors.allowBackorder && (
+            <p className="custom-error">{errors.allowBackorder.message}</p>
+          )}
         </fieldset>
 
         {/* Category ID */}
@@ -120,9 +160,13 @@ const AddProductForm = () => {
             type="text"
             {...register("categoryId")}
             placeholder="Enter category UUID"
-            className={`${errors.categoryId ? "custom-input-error" : "custom-input"}`}
+            className={`${
+              errors.categoryId ? "custom-input-error" : "custom-input"
+            }`}
           />
-          {errors.categoryId && <p className="custom-error">{errors.categoryId.message}</p>}
+          {errors.categoryId && (
+            <p className="custom-error">{errors.categoryId.message}</p>
+          )}
         </fieldset>
 
         {/* Tags */}
@@ -144,9 +188,13 @@ const AddProductForm = () => {
             type="text"
             {...register("images")}
             placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg"
-            className={`${errors.images ? "custom-input-error" : "custom-input"}`}
+            className={`${
+              errors.images ? "custom-input-error" : "custom-input"
+            }`}
           />
-          {errors.images && <p className="custom-error">{errors.images.message}</p>}
+          {errors.images && (
+            <p className="custom-error">{errors.images.message}</p>
+          )}
         </fieldset>
 
         {/* Submit Button */}

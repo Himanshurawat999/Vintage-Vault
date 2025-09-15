@@ -52,7 +52,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
         >
           <motion.div
             ref={modalRef}
-            className="relative bg-white rounded-lg shadow-lg max-w-md w-full p-6 pr-0 max-h-[90%] overflow-y-scroll"
+            className="relative bg-white rounded-lg shadow-lg max-w-md w-full p-6 pr-0 max-h-[90%] overflow-y-auto"
             variants={modalVariants}
             initial="hidden"
             animate="visible"

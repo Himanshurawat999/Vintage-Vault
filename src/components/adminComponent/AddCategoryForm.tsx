@@ -53,6 +53,7 @@ const AddCategoryForm = () => {
               <input
                 {...register("isActive")}
                 type="checkbox"
+                className="checkbox"
               />
               <span>Active</span>
             </label>

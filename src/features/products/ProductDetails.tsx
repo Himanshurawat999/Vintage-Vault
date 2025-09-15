@@ -1,23 +1,35 @@
+import { useState } from "react";
 import { useParams } from "react-router";
+import { Heart, Minus, Plus, Star, Truck } from "lucide-react";
 import { useProductDetails } from "../../hooks/userHooks/useProductDetails";
 import NavBar from "../../components/userComponent/NavBar";
 import Footer from "../../components/userComponent/Footer";
-import { Minus, Plus, Star, Truck } from "lucide-react";
-import { useState } from "react";
 import { useAddCart } from "../../hooks/userHooks/useAddCart";
+import Reviews from "../../components/userComponent/Reviews";
+import { useWishlistToggle } from "../../hooks/userHooks/useWishlistToggle";
+import { useGetReviewSum } from "../../hooks/userHooks/useGetReviewSum";
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const [quantity, setQuantity] = useState<number>(0);
+  const [quantity, setQuantity] = useState<number>(1);
 
   const { data: productDetails } = useProductDetails(id);
+  const { data: reviewSummaryData } = useGetReviewSum(id!);
+  const summary = reviewSummaryData?.data?.summary;
   const product = productDetails?.data?.product;
-  console.log(productDetails);
+  // console.log(productDetails);
 
   const { mutate, isPending } = useAddCart();
+  const {
+    isInWishlist,
+    toggleWishlist,
+    loading: wishlistLoading,
+  } = useWishlistToggle(id);
+
+  console.log(isInWishlist);
 
   const handleCart = () => {
-    console.log("CArt");
+    // console.log("CArt");
     if (!product) return;
 
     const payload = {
@@ -34,13 +46,18 @@ const ProductDetails = () => {
     mutate(payload);
   };
 
+  const handleWishlist = () => {
+    if (wishlistLoading) return;
+    toggleWishlist();
+  };
+
   return (
     <>
       <NavBar />
-      <div className="w-full sm:px-12 md:px-20 pt-28 mb-20 flex flex-col sm:flex-row gap-x-10 lg:gap-x-24">
+      <div className="w-full sm:px-12 md:px-20 pt-28 flex flex-col sm:flex-row gap-x-10 lg:gap-x-24">
         <div
           id="left"
-          className="w-[80%] mx-auto sm:w-1/2 h-[400px] sm:h-full lg:h-[500px]"
+          className="w-[80%] mx-auto sm:w-1/2 h-[400px] sm:h-[500px] relative"
         >
           <div className="w-full h-full">
             <img
@@ -49,6 +66,15 @@ const ProductDetails = () => {
               className="w-full h-full object-cover"
             />
           </div>
+          <span onClick={handleWishlist} className="absolute top-4 right-2">
+            <Heart
+              className={`cursor-pointer ${
+                isInWishlist
+                  ? "fill-orange-500 text-orange-500 "
+                  : "text-orange-500"
+              } ${wishlistLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+            />
+          </span>
         </div>
 
         <div
@@ -56,15 +82,28 @@ const ProductDetails = () => {
           className="w-[80%] mx-auto sm:w-1/2 h-full py-6 text-zinc-800"
         >
           <h2 className="text-3xl font-fraunces">{product?.name}</h2>
-          <div className="mt-2 flex gap-4 items-center">
-            <div className="flex gap-0.5">
-              <Star className="text-orange-500 fill-orange-500 w-4" />
-              <Star className="text-orange-500 fill-orange-500 w-4" />
-              <Star className="text-orange-500 fill-orange-500 w-4" />
-              <Star className="text-orange-500 fill-orange-500 w-4" />
+
+          <div className="flex items-center space-x-4">
+            <div className="flex space-x-1">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className={`w-4 h-4 ${
+                    i < Math.round(summary?.averageRating || 0)
+                      ? "text-yellow-400"
+                      : "text-gray-300"
+                  }`}
+                />
+              ))}
             </div>
-            <p className="text-sm text-zinc-600">(7 customer reviews)</p>
+            <span className="text-sm text-zinc-600">
+              {summary?.averageRating.toFixed(1) || "0.0"}
+            </span>
+            <span className="text-sm text-zinc-600">
+              ({summary?.totalReviews || 0} reviews)
+            </span>
           </div>
+
           <p className="mt-4 text-zinc-600 w-4/5">{product?.description}</p>
           <p className="mt-4 text-lg font-medium">
             ${parseFloat(product?.price).toFixed(2)}
@@ -89,6 +128,10 @@ const ProductDetails = () => {
               Weight : {parseFloat(product?.weight).toFixed(2)}
               {product?.weightUnit}
             </p>
+            <p className="text-sm text-zinc-600 mt-2">
+              Category : {product?.category?.name}
+              {product?.weightUnit}
+            </p>
           </div>
 
           <div className="mt-6 md:mt-12 flex gap-3">
@@ -98,7 +141,7 @@ const ProductDetails = () => {
             >
               <Minus
                 className="text-zinc-600 w-5 cursor-pointer"
-                onClick={() => setQuantity((q) => Math.max(q - 1, 0))}
+                onClick={() => setQuantity((q) => Math.max(q - 1, 1))}
               />
               <p className="text-xl">{quantity}</p>
               <Plus
@@ -118,6 +161,7 @@ const ProductDetails = () => {
           </div>
         </div>
       </div>
+      <Reviews />
       <Footer />
     </>
   );

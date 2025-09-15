@@ -40,7 +40,7 @@ const OrdersPage = () => {
     })),
     shippingMethod: "standard",
     customerNotes: "",
-    paymentConfirmed: true,
+    paymentConfirmed: false,
     metadata: { additionalProp1: {} },
   };
 
@@ -99,7 +99,7 @@ const OrdersPage = () => {
                         Qty {item.quantity}
                       </p>
                       <p className="text-lg font-semibold text-gray-800">
-                        ${item.product.price * item.quantity}
+                      ${(item.product.price * item.quantity).toFixed(2)}
                       </p>
                     </div>
                   </div>
@@ -134,7 +134,7 @@ const OrdersPage = () => {
               <div className="flex justify-between">
                 <span className="text-lg text-gray-700">Shipping</span>
                 <span className="text-lg font-semibold text-gray-600">
-                  Free
+                {cart?.summary?.shippingAmount ? cart?.summary?.shippingAmount : "Free"}
                 </span>
               </div>
               <div className="flex justify-between">

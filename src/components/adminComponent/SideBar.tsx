@@ -1,4 +1,4 @@
-import { Box, ClipboardList, ListFilter } from "lucide-react";
+import { Box, ClipboardList, ListFilter, LogOut } from "lucide-react";
 import { NavLink } from "react-router";
 
 const SideBar = () => {
@@ -30,6 +30,15 @@ const SideBar = () => {
             data-tip="Category"
           >
             <ListFilter />
+          </NavLink>
+        </li>
+        <li>
+        <NavLink
+            to="category"
+            className="tooltip tooltip-right"
+            data-tip="Category"
+          >
+            <LogOut />
           </NavLink>
         </li>
       </ul>

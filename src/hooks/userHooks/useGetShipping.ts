@@ -1,4 +1,3 @@
-// src/hooks/useGetShipping.ts
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import apiClient from "../../api/apiClient";
 

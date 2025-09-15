@@ -55,16 +55,6 @@ const ShippingForm = () => {
         )}
       </fieldset>
 
-      {/* Company */}
-      <fieldset className="custom-fieldset">
-        <legend>Company</legend>
-        <input
-          {...register("company")}
-          placeholder="Company"
-          className="custom-input"
-        />
-      </fieldset>
-
       {/* Address Line 1 */}
       <fieldset className="custom-fieldset">
         <legend>Address Line 1</legend>
@@ -160,7 +150,7 @@ const ShippingForm = () => {
       {/* Default Address */}
       <label className="flex items-center gap-3">
         <p className="font-medium text-zinc-800">Default Address</p>
-        <input type="checkbox" {...register("isDefault")} />
+        <input type="checkbox" className="checkbox" {...register("isDefault")} />
       </label>
 
       <LoadingButton

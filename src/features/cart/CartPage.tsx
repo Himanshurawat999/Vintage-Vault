@@ -2,17 +2,21 @@ import { Minus, Plus, X } from "lucide-react";
 import { useGetCart } from "../../hooks/userHooks/useGetCart";
 import { useQuantity } from "../../hooks/userHooks/useQuantity";
 import { useRemoveCartItem } from "../../hooks/userHooks/useRemoveCartItem";
-import { Link } from "react-router";
+import {  useNavigate } from "react-router";
 import NavBar from "../../components/userComponent/NavBar";
 import Footer from "../../components/userComponent/Footer";
 
 const CartPage = () => {
   const { data: cartDetails, isLoading, isError, error } = useGetCart();
   const cart = cartDetails?.data?.cart;
-  console.log(cart);
+  // console.log(cart);
 
-  const { mutate: updateQuantity } = useQuantity();
+  const { mutate: updateQuantity, data:updatedQuantity } = useQuantity();
   const { mutate: removeCartItem } = useRemoveCartItem();
+  const navigate = useNavigate();
+
+  // console.log("updatedQuantity : ",updatedQuantity?.data?.cart?.items[0].quantity)
+  // console.log("cartDetail : ",cart?.items[0]?.quantity)
 
   if (isLoading) return <p>Loading your cart...</p>;
   if (isError)
@@ -21,14 +25,20 @@ const CartPage = () => {
     );
 
   const handleMinus = (productId: string, productQuantity: number) => {
-    updateQuantity({
-      itemId: productId,
-      quantity: Math.max(productQuantity - 1, 0),
-    });
+    if (productQuantity - 1 === 0) {
+      removeCartItem({ itemId: productId });
+    } else {
+      updateQuantity({
+        itemId: productId,
+        quantity: Math.max(productQuantity - 1, 0),
+      });
+    }
   };
 
   const handlePlus = (productId: string, productQuantity: number) => {
-    updateQuantity({ itemId: productId, quantity: productQuantity + 1 });
+    console.log("PLUS : ", productQuantity)
+    const newQty = productQuantity + 1;
+    updateQuantity({ itemId: productId, quantity: newQty });
   };
 
   const handleDelete = (productId: string) => {
@@ -70,12 +80,17 @@ const CartPage = () => {
                     </div>
 
                     <div className="flex flex-col">
-                      <p className="font-semibold text-gray-900 mb-1">
+                      <p className="font-semibold text-gray-900 mb-2">
                         {item.product.name}
                       </p>
-                      <p className="text-lg font-semibold text-gray-900">
-                        ${(item.product.price * item.quantity).toFixed(2)}
-                      </p>
+                      <div className="flex gap-2 mb-2">
+                        <p className="text-lg font-semibold text-gray-900">
+                          ${(item.product.price * item.quantity).toFixed(2)}
+                        </p>
+                        <span className="text-xs text-gray-600">
+                          x{item.quantity}
+                        </span>
+                      </div>
                       <div className="flex items-center gap-4">
                         <Minus
                           className="text-zinc-600 w-3 cursor-pointer"
@@ -112,7 +127,7 @@ const CartPage = () => {
               <div className="flex justify-between">
                 <span className="text-lg text-gray-700">Shipping</span>
                 <span className="text-lg font-semibold text-gray-900">
-                  Free
+                  {cart?.summary?.shippingAmount ? cart?.summary?.shippingAmount : "Free"}
                 </span>
               </div>
               <div className="flex justify-between">
@@ -128,12 +143,13 @@ const CartPage = () => {
                 </span>
               </div>
             </div>
-            <Link
-              to="/shipping"
-              className="mt-6 inline-block w-full py-3 text-center text-lg font-medium text-white bg-orange-600 hover:bg-orange-700 rounded-lg shadow-xs"
+            <button
+              onClick={() => navigate("/shipping")}
+              disabled={cart?.items.length === 0}
+              className="mt-6 inline-block w-full py-3 text-center text-lg font-medium text-white bg-orange-600 hover:bg-orange-700 rounded-lg shadow-xs disabled:cursor-not-allowed cursor-pointer"
             >
               Proceed to Checkout
-            </Link>
+            </button>
           </div>
         </div>
       </div>

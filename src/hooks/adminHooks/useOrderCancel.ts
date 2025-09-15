@@ -1,9 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 import apiClient from '../../api/apiClient';
+import type { OrderCancelValues } from '../../types/orderStatus.schema';
 
-const orderCancel = async ({ id, reason }: { id: string, reason: string }): Promise<any> => {
-    const res = await apiClient.patch(`/orders/${id}/status`, reason);
+const orderCancel = async ({ orderId, payload }: { orderId: string, payload: OrderCancelValues }): Promise<any> => {
+    const res = await apiClient.patch(`/orders/${orderId}/cancel`, payload);
     return res.data;
 };
 

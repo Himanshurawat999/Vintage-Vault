@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ArrowBigUpDash, ChevronDown, ChevronUp } from "lucide-react";
 import Card from "../../components/userComponent/Card";
 import Footer from "../../components/userComponent/Footer";
 import NavBar from "../../components/userComponent/NavBar";
@@ -34,7 +34,7 @@ const Products = () => {
   return (
     <>
       <NavBar />
-      <div className="flex pt-24">
+      <div id="product" className="flex pt-24">
         <div id="aside" className="w-[22%] ml-4 md:ml-12 mt-2">
           <h3
             className="font-fraunces font-light text-base sm:text-2xl hover:underline cursor-pointer mb-4"
@@ -109,11 +109,11 @@ const Products = () => {
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-14 gap-y-10 relative"
           >
             {!isLoading && productData?.data?.products.length === 0 ? (
-              <div className="absolute left-20 top-36">
-                <h1 className="font-fraunces font-light italic text-8xl text-center">
+              <div className="absolute left-10 top-4 md:left-20 md:top-24">
+                <h1 className="font-fraunces font-light italic text-3xl sm:text-8xl text-center">
                   We're launching soon...
                 </h1>
-                <h5 className="text-center mt-5 text-zinc-600">
+                <h5 className="text-xs sm:text-base text-center mt-5 text-zinc-600">
                   Please checkout other products
                 </h5>
               </div>
@@ -124,6 +124,9 @@ const Products = () => {
             )}
           </div>
         </div>
+        <a href="#product" className="fixed z-50 left-2 bottom-5 w-10 h-10 rounded-full bg-orange-400 flex items-center justify-center">
+          <ArrowBigUpDash />
+        </a>
       </div>
       <Footer />
     </>

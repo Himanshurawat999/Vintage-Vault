@@ -5,6 +5,7 @@ import { useSearch } from "../../hooks/userHooks/useSearch";
 import { useUserProfile } from "../../hooks/userHooks/useUserProfile";
 import { motion, AnimatePresence } from "motion/react";
 import { useGetCart } from "../../hooks/userHooks/useGetCart";
+import { useAuthStore } from "../../store/authStore";
 
 const NavBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -14,32 +15,37 @@ const NavBar = () => {
   const { data: searchResult } = useSearch(searchTerm);
   const { data: userProfile } = useUserProfile();
   const { data: fetchCart } = useGetCart();
-  const cartLen = fetchCart?.data?.cart?.items?.length === 0 ? null : fetchCart?.data?.cart?.items?.length;
-  console.log(fetchCart?.data?.cart?.items?.length);
-  // console.log(userProfile);
+  const cartLen = fetchCart?.data?.cart?.items?.length;
 
   const navigate = useNavigate();
+  const {clearAuth} = useAuthStore();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const term = e.target.value;
     setSearchTerm(term);
     setShowSuggestions(Boolean(term));
 
-    console.log(searchTerm);
-    console.log("Data : ", searchResult);
-    console.log(Boolean(term));
+    console.log(searchResult?.data?.products?.length)
+
+    // console.log(searchTerm);
+    // console.log("Data : ", searchResult);
+    // console.log(Boolean(term));
   };
 
   const handleSelect = (id: string) => {
-    console.log("Selected product id : ", id);
+    // console.log("Selected product id : ", id);
     setShowSuggestions(false);
     navigate(`/products/${id}`);
   };
 
   const handleProfile = () => {
-    console.log("showProfile : ", showProfile);
+    // console.log("showProfile : ", showProfile);
     setShowProfile(!showProfile);
   };
+
+  const handleLogout = () => {
+    clearAuth();
+  }
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
 
@@ -81,9 +87,6 @@ const NavBar = () => {
               <h1 className="font-fraunces font-thin text-3xl underline underline-offset-2 decoration-1 mb-3">
                 Vintage Vault
               </h1>
-              <Link to="/login" onClick={toggleMenu} className="py-2">
-                Login
-              </Link>
               <Link to="/" onClick={toggleMenu} className="py-2">
                 Home
               </Link>
@@ -92,6 +95,9 @@ const NavBar = () => {
               </Link>
               <Link to="/cart" onClick={toggleMenu} className="py-2">
                 Cart
+              </Link>
+              <Link to="/login" onClick={toggleMenu} className="py-2">
+                Logout
               </Link>
             </motion.div>
           </>
@@ -106,9 +112,8 @@ const NavBar = () => {
           onChange={(e) => handleChange(e)}
         />
         <Search className="absolute top-0 right-2 w-4 text-zinc-600" />
-        {showSuggestions && searchResult?.data?.products?.length > 0 && (
           <ul className="absolute top-full left-0 right-0 bg-white border max-h-60 overflow-auto z-10">
-            {searchResult.data.products.map((p: any) => (
+            {searchResult?.data?.products?.length === 0 ? (<li>no such product</li>) : searchResult?.data?.products.map((p: any) => (
               <li
                 key={p.id}
                 className="px-2 py-1 hover:bg-gray-100 cursor-pointer"
@@ -118,7 +123,6 @@ const NavBar = () => {
               </li>
             ))}
           </ul>
-        )}
       </div>
       <ul className="md:flex gap-4 hidden">
         <Link
@@ -144,15 +148,18 @@ const NavBar = () => {
         </Link>
         <li className="relative hidden md:block ml-1">
           <SquareUser
-            onClick={handleProfile}
+            onClick={() => setShowProfile(() => !showProfile)}
+            // onMouseLeave={() => setShowProfile(false)}
             className="text-zinc-600 hover:text-orange-500"
           />
           {showProfile && (
-            <div className="absolute w-28 px-2 top-7 -right-6 bg-white border max-h-60 z-10">
-              <p>
+            <div className="absolute w-36 p-2 top-7 -right-6 bg-white shadow-sm max-h-60 z-10 text-zinc-600">
+              <p className="hover:bg-zinc-100 p-1">
                 {userProfile.data.user.firstName}{" "}
                 {userProfile.data.user.lastName}
               </p>
+              <Link to={'/user-profile'} className="hover:bg-zinc-100 cursor-pointer p-1 block">Setting</Link>
+              <div onClick={handleLogout} className="hover:bg-zinc-100 text-red-400 cursor-pointer p-1">Logout</div>
             </div>
           )}
         </li>

@@ -45,64 +45,68 @@ const AdminProduct: React.FC = () => {
     return null;
   };
 
-  // return (
-  //   <div className="mx-auto px-4 pt-6 md:pt-12 mb-10 sm:px-6 lg:px-8">
-  //     <div className="flex justify-between items-end">
-  //       <h3 className="font-fraunces font-light text-2xl md:text-3xl lg:text-5xl mb-8 md:mb-12">
-  //         Products
-  //       </h3>
-  //       <button
-  //         onClick={openAdd}
-  //         className="flex items-center gap-2 p-1 bg-zinc-300 hover:bg-orange-500 text-zinc-900 rounded cursor-pointer"
-  //       >
-  //         <Plus className="w-5 h-4" />
-  //         <span className="text-sm">Add Product</span>
-  //       </button>
-  //     </div>
+  return (
+    <div className="mx-auto px-4 pt-6 md:pt-12 mb-10 sm:px-6 lg:px-8">
+      <div className="flex justify-between items-end">
+        <h3 className="font-fraunces font-light text-2xl md:text-3xl lg:text-5xl mb-8 md:mb-12">
+          Products
+        </h3>
+        <button
+          onClick={openAdd}
+          className="flex items-center gap-2 p-1 bg-zinc-300 hover:bg-orange-500 text-zinc-900 rounded cursor-pointer"
+        >
+          <Plus className="w-5 h-4" />
+          <span className="text-sm">Add Product</span>
+        </button>
+      </div>
 
-  //     <Modal isOpen={modalMode !== null} onClose={closeModal}>
-  //       {renderForm()}
-  //     </Modal>
+      <Modal isOpen={modalMode !== null} onClose={closeModal}>
+        {renderForm()}
+      </Modal>
 
-  //     <div className="overflow-x-auto">
-  //       <table className="table">
-  //         <thead>
-  //           <tr>
-  //             <th>Name</th>
-  //             <th>Edit</th>
-  //             <th>Delete</th>
-  //           </tr>
-  //         </thead>
-  //         <tbody>
-  //           {productsData?.data?.products?.map((product: any) => (
-  //             <tr
-  //               key={product.id}
-  //               className="border-b border-zinc-400 hover:bg-zinc-100"
-  //             >
-  //               <td>{product.name}</td>
-  //               <td>
-  //                 <span
-  //                   className="text-lime-500 cursor-pointer"
-  //                   onClick={() => openEdit(product.id)}
-  //                 >
-  //                   Edit
-  //                 </span>
-  //               </td>
-  //               <td>
-  //                 <span
-  //                   className="text-red-500 cursor-pointer"
-  //                   onClick={() => handleDelete(product.id)}
-  //                 >
-  //                   Delete
-  //                 </span>
-  //               </td>
-  //             </tr>
-  //           ))}
-  //         </tbody>
-  //       </table>
-  //     </div>
-  //   </div>
-  // );
+      <div className="overflow-x-auto">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Qty</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {productsData?.data?.products?.map((product: any) => (
+              <tr
+                key={product.id}
+                className="border-b border-zinc-400 hover:bg-zinc-100"
+              >
+                <td>{product.name}</td>
+                <td>{parseFloat(product.price).toFixed(2)}</td>
+                <td>{product.inventoryQuantity}</td>
+                <td>
+                  <span
+                    className="text-lime-500 cursor-pointer"
+                    onClick={() => openEdit(product.id)}
+                  >
+                    Edit
+                  </span>
+                </td>
+                <td>
+                  <span
+                    className="text-red-500 cursor-pointer"
+                    onClick={() => handleDelete(product.id)}
+                  >
+                    Delete
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 };
 
 export default AdminProduct;

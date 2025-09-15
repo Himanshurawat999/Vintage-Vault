@@ -32,7 +32,6 @@ const ShippingEditForm = () => {
     defaultValues: {
       firstName: "",
       lastName: "",
-      company: "",
       addressLine1: "",
       addressLine2: "",
       city: "",
@@ -49,7 +48,6 @@ const ShippingEditForm = () => {
       reset({
         firstName: address.firstName,
         lastName: address.lastName,
-        company: address.company,
         addressLine1: address.addressLine1,
         addressLine2: address.addressLine2,
         city: address.city,
@@ -97,16 +95,6 @@ const ShippingEditForm = () => {
         {errors.lastName && (
           <p className="custom-error">{errors.lastName.message}</p>
         )}
-      </fieldset>
-
-      {/* Company */}
-      <fieldset className="custom-fieldset">
-        <legend>Company</legend>
-        <input
-          {...register("company")}
-          placeholder="Company"
-          className="custom-input"
-        />
       </fieldset>
 
       {/* Address Line 1 */}
@@ -204,7 +192,7 @@ const ShippingEditForm = () => {
       {/* Default Address */}
       <label className="flex items-center gap-3">
         <p className="font-medium text-zinc-800">Default Address</p>
-        <input type="checkbox" {...register("isDefault")} />
+        <input type="checkbox" className="checkbox" {...register("isDefault")} />
       </label>
 
       <LoadingButton
