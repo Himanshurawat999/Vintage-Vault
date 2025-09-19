@@ -5,15 +5,20 @@ import AddCategoryForm from "../../components/adminComponent/AddCategoryForm";
 import { useCategories } from "../../hooks/userHooks/useCategories";
 import { useSearchParams } from "react-router";
 import EditCategory from "../../components/adminComponent/EditCategory";
+import LoadingScreen from "../../components/userComponent/LoadingScreen";
+import DeleteConfirmation from "../../components/adminComponent/DeleteConfirmation";
 import { useDeleteCategory } from "../../hooks/adminHooks/useDeleteCategory";
 
-type ModalMode = "add" | "edit" | null;
+type ModalMode = "add" | "edit" | "delete" | null;
 
 const AdminCategory: React.FC = () => {
+  const [status, setStatus] = useState<string>("true");
   const [modalMode, setModalMode] = useState<ModalMode>(null);
+  const [curId, setCurId] = useState<string>("");
   const [, setSearchParams] = useSearchParams();
 
-  const { data: categoriesData } = useCategories();
+  const { data: categoriesData, isLoading: categoriesDataLoading } =
+    useCategories(status);
   const { mutate: deleteCateroy } = useDeleteCategory();
   console.log(categoriesData);
 
@@ -26,31 +31,53 @@ const AdminCategory: React.FC = () => {
     setModalMode("edit");
   };
 
-  const handleDelete = (id: string) => {
-    deleteCateroy({ id: id });
+  const openDelete = (id: string) => {
+    setModalMode("delete");
+    setCurId(id);
+  };
+
+  const handleDelete = () => {
+    deleteCateroy({ id: curId });
   };
 
   const closeModal = () => {
     setModalMode(null);
-    setSearchParams()
+    setSearchParams();
+  };
+
+  const handleSeleted = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log(e.target.value);
+    setStatus(e.target.value);
   };
 
   const renderForm = () => {
     if (modalMode === "add") {
-      return <AddCategoryForm />;
+      return <AddCategoryForm onSuccess={closeModal} />;
     }
     if (modalMode === "edit") {
-      return <EditCategory />;
+      return <EditCategory onSuccess={closeModal} status={status} />;
+    }
+    if (modalMode === "delete") {
+      return (
+        <DeleteConfirmation
+          onSuccess={closeModal}
+          id={curId}
+          onDelete={handleDelete}
+        />
+      );
     }
     return null;
   };
 
-  return (
+  return categoriesDataLoading ? (
+    <LoadingScreen />
+  ) : (
     <div className="mx-auto px-4 pt-6 md:pt-12 mb-10 sm:px-6 lg:px-8">
-      <div className="flex justify-between items-end">
-        <h3 className="font-fraunces font-light text-2xl md:text-3xl lg:text-5xl mb-8 md:mb-12">
-          Category
-        </h3>
+      <h3 className="font-fraunces font-light text-2xl md:text-3xl lg:text-5xl mb-4 md:mb-6">
+        Category
+      </h3>
+
+      <div className="flex justify-between items-end mb-4 md:mb-6">
         <button
           onClick={openAdd}
           className="flex items-center gap-2 p-1 bg-zinc-300 hover:bg-orange-500 text-zinc-900 rounded cursor-pointer"
@@ -58,6 +85,17 @@ const AdminCategory: React.FC = () => {
           <Plus className="w-5 h-4" />
           <span className="text-sm">Add Category</span>
         </button>
+
+        <fieldset className="custom-fieldset">
+          <select
+            defaultValue={"true"}
+            onChange={(e) => handleSeleted(e)}
+            className="custom-input"
+          >
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+          </select>
+        </fieldset>
       </div>
 
       <Modal isOpen={modalMode !== null} onClose={closeModal}>
@@ -69,8 +107,9 @@ const AdminCategory: React.FC = () => {
           <thead>
             <tr>
               <th>Name</th>
+              <th>Status</th>
               <th>Edit</th>
-              <th>Delete</th>
+              {status === "true" && <th>Delete</th>}
             </tr>
           </thead>
           <tbody>
@@ -80,6 +119,7 @@ const AdminCategory: React.FC = () => {
                 className="border-b border-zinc-400 hover:bg-zinc-100"
               >
                 <td>{category.name}</td>
+                <td>{category.isActive ? "Active" : "Inactive"}</td>
                 <td>
                   <span
                     className="text-lime-500 cursor-pointer"
@@ -88,14 +128,16 @@ const AdminCategory: React.FC = () => {
                     Edit
                   </span>
                 </td>
-                <td>
-                  <span
-                    className="text-red-500 cursor-pointer"
-                    onClick={() => handleDelete(category.id)}
-                  >
-                    Delete
-                  </span>
-                </td>
+                {status === "true" && (
+                  <td>
+                    <span
+                      className="text-red-500 cursor-pointer"
+                      onClick={() => openDelete(category.id)}
+                    >
+                      Delete
+                    </span>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>

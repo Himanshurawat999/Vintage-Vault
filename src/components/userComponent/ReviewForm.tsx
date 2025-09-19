@@ -46,7 +46,7 @@ const ReviewForm: React.FC<Props> = ({ onSuccess }) => {
             <Star
               key={star}
               className={`w-8 h-8 cursor-pointer ${
-                rating >= star ? "fill-yellow-400" : "text-gray-300"
+                rating >= star ? "text-orange-500 fill-orange-500" : "text-gray-300"
               }`}
               onClick={() => setValue("rating", star)}
             />

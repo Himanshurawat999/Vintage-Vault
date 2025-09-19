@@ -6,11 +6,12 @@ import { useRemoveShipping } from "../../hooks/userHooks/useRemoveShipping";
 import Modal from "../../components/adminComponent/Modal";
 import ShippingForm from "../../components/userComponent/ShippingForm";
 import ShippingEditForm from "../../components/userComponent/ShippingEditForm";
+import LoadingScreen from "../../components/userComponent/LoadingScreen";
 
 type ModalMode = "add" | "edit" | null;
 
 export function Shipping() {
-  const { data: addresses, isLoading } = useGetShipping();
+  const { data: addresses, isLoading: addressesLoading } = useGetShipping();
   const { mutate: removeShipping } = useRemoveShipping();
 
   const [, setSearchParams] = useSearchParams();
@@ -20,13 +21,13 @@ export function Shipping() {
 
   useEffect(() => {
     if (addresses?.data?.addresses?.length === 0) setSelectedId(null);
-    if (!isLoading && addresses?.data?.addresses) {
+    if (!addressesLoading && addresses?.data?.addresses) {
       const defaultAddress = addresses.data.addresses.find(
         (addr: any) => addr.isDefault
       );
       if (defaultAddress) setSelectedId(defaultAddress.id);
     }
-  }, [isLoading, addresses]);
+  }, [addressesLoading, addresses]);
 
   const handleDeliver = () => {
     navigate(`/orders`, { state: { shippingId: selectedId } });
@@ -38,27 +39,30 @@ export function Shipping() {
 
   const handleEdit = (shippingId: string) => {
     setSearchParams({ shippingId });
-    setModalMode("edit")
+    setModalMode("edit");
   };
 
   const closeModal = () => {
     setSearchParams();
-    setModalMode(null)
+    setModalMode(null);
   };
   const openAdd = () => {
-     setModalMode("add")};
-  
+    setModalMode("add");
+  };
+
   const renderForm = () => {
-    if(modalMode == "add") {
-      return <ShippingForm />
+    if (modalMode == "add") {
+      return <ShippingForm />;
     }
-    if(modalMode == "edit") {
-      return <ShippingEditForm />
+    if (modalMode == "edit") {
+      return <ShippingEditForm />;
     }
     return null;
-  }
+  };
 
-  return (
+  return addressesLoading ? (
+    <LoadingScreen />
+  ) : (
     <div className="p-4 sm:w-[50%] mx-auto">
       <h2 className="font-fraunces text-3xl text-gray-800 mb-6">
         Select a delivery address

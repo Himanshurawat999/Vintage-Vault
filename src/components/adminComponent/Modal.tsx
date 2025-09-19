@@ -58,12 +58,11 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
             animate="visible"
             exit="exit"
           >
-            <button
-              onClick={onClose}
-              className="absolute top-4 right-4 text-gray-400 hover:text-orange-600 cursor-pointer"
+            <div
+              className="absolute z-50 top-4 right-4 text-gray-400"
             >
-              <X className="w-5" />
-            </button>
+              <X className="w-5 hover:text-orange-600 cursor-pointer" onClick={onClose}/>
+            </div>
             {children}
           </motion.div>
         </motion.div>

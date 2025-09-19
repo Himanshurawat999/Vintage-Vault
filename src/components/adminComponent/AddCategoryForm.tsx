@@ -4,7 +4,7 @@ import { addCategorySchema, type AddCategoryFormValues } from "../../types/categ
 import LoadingButton from "../../components/animata/LoadingButton";
 import { useAddCategory } from "../../hooks/adminHooks/useAddCategory";
 
-const AddCategoryForm = () => {
+const AddCategoryForm = ({onSuccess}:{onSuccess: () => void}) => {
     const {mutate} = useAddCategory();
   const {
     register,
@@ -17,6 +17,7 @@ const AddCategoryForm = () => {
   const onSubmit = (data: AddCategoryFormValues) => {
     console.log("Submitting:", data);
     mutate(data)
+    onSuccess();
   };
 
   return (

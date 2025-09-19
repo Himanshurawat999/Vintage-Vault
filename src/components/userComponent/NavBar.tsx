@@ -18,14 +18,14 @@ const NavBar = () => {
   const cartLen = fetchCart?.data?.cart?.items?.length;
 
   const navigate = useNavigate();
-  const {clearAuth} = useAuthStore();
+  const { clearAuth } = useAuthStore();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const term = e.target.value;
     setSearchTerm(term);
     setShowSuggestions(Boolean(term));
 
-    console.log(searchResult?.data?.products?.length)
+    console.log(searchResult?.data?.products?.length);
 
     // console.log(searchTerm);
     // console.log("Data : ", searchResult);
@@ -45,7 +45,7 @@ const NavBar = () => {
 
   const handleLogout = () => {
     clearAuth();
-  }
+  };
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
 
@@ -112,8 +112,11 @@ const NavBar = () => {
           onChange={(e) => handleChange(e)}
         />
         <Search className="absolute top-0 right-2 w-4 text-zinc-600" />
-          <ul className="absolute top-full left-0 right-0 bg-white border max-h-60 overflow-auto z-10">
-            {searchResult?.data?.products?.length === 0 ? (<li>no such product</li>) : searchResult?.data?.products.map((p: any) => (
+        <ul className="absolute top-full left-0 right-0 bg-white border max-h-60 overflow-auto z-10">
+          {searchResult?.data?.products?.length === 0 ? (
+            <li>no such product</li>
+          ) : (
+            searchResult?.data?.products.map((p: any) => (
               <li
                 key={p.id}
                 className="px-2 py-1 hover:bg-gray-100 cursor-pointer"
@@ -121,8 +124,9 @@ const NavBar = () => {
               >
                 {p.name}
               </li>
-            ))}
-          </ul>
+            ))
+          )}
+        </ul>
       </div>
       <ul className="md:flex gap-4 hidden">
         <Link
@@ -148,18 +152,33 @@ const NavBar = () => {
         </Link>
         <li className="relative hidden md:block ml-1">
           <SquareUser
-            onClick={() => setShowProfile(() => !showProfile)}
-            // onMouseLeave={() => setShowProfile(false)}
+            // onClick={() => setShowProfile(() => !showProfile)}
+            onMouseEnter={() => setShowProfile(true)}
+            onMouseLeave={() => setShowProfile(false)}
             className="text-zinc-600 hover:text-orange-500"
           />
           {showProfile && (
-            <div className="absolute w-36 p-2 top-7 -right-6 bg-white shadow-sm max-h-60 z-10 text-zinc-600">
+            <div
+              onMouseEnter={() => setShowProfile(true)}
+              onMouseLeave={() => setShowProfile(false)}
+              className="absolute w-36 p-2 top-[23px] -right-6 bg-white shadow-sm max-h-60 z-10 text-zinc-600"
+            >
               <p className="hover:bg-zinc-100 p-1">
                 {userProfile.data.user.firstName}{" "}
                 {userProfile.data.user.lastName}
               </p>
-              <Link to={'/user-profile'} className="hover:bg-zinc-100 cursor-pointer p-1 block">Setting</Link>
-              <div onClick={handleLogout} className="hover:bg-zinc-100 text-red-400 cursor-pointer p-1">Logout</div>
+              <Link
+                to={"/user-profile"}
+                className="hover:bg-zinc-100 cursor-pointer p-1 block"
+              >
+                Setting
+              </Link>
+              <div
+                onClick={handleLogout}
+                className="hover:bg-zinc-100 text-red-400 cursor-pointer p-1"
+              >
+                Logout
+              </div>
             </div>
           )}
         </li>

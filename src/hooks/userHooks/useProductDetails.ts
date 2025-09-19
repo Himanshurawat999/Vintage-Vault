@@ -7,5 +7,10 @@ const getProductDetails = async (productId?: string | null) => {
 }
 
 export const useProductDetails = (productId?: string | null) => {
-    return useQuery({ queryKey: ['productDetails', productId], queryFn: () => getProductDetails(productId), placeholderData: keepPreviousData, enabled: productId !== null })
+    return useQuery({
+        queryKey: ['productDetails', productId],
+        queryFn: () => getProductDetails(productId),
+        placeholderData: keepPreviousData,
+        enabled: productId !== null
+    })
 }

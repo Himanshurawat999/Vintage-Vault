@@ -1,9 +1,16 @@
 import { Box, ClipboardList, ListFilter, LogOut } from "lucide-react";
 import { NavLink } from "react-router";
+import { useAuthStore } from "../../store/authStore";
 
 const SideBar = () => {
+  const { clearAuth } = useAuthStore();
+
+  const handleLogout = () => {
+    clearAuth();
+  };
+
   return (
-    <aside className="w-12 min-h-screen flex flex-col gap-4 pt-6 px-2 bg-zinc-100">
+    <aside className="w-12 min-h-screen flex flex-col gap-4 pt-6 px-2 bg-zinc-100 fixed">
       <ul className="w-full h-full flex flex-col gap-4">
         <li>
           <NavLink
@@ -34,9 +41,10 @@ const SideBar = () => {
         </li>
         <li>
         <NavLink
-            to="category"
+            to="login"
             className="tooltip tooltip-right"
-            data-tip="Category"
+            data-tip="Logout"
+            onClick={handleLogout}
           >
             <LogOut />
           </NavLink>

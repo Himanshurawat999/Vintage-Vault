@@ -47,7 +47,7 @@ const Reviews = () => {
                 key={i}
                 className={`w-5 h-5 ${
                   i < Math.round(summary?.averageRating || 0)
-                    ? "text-yellow-400"
+                    ? "text-orange-500 fill-orange-500"
                     : "text-gray-300"
                 }`}
               />
@@ -83,10 +83,10 @@ const Reviews = () => {
         </div>
 
         {/* Verified Purchase Info */}
-        <p className="mt-3 text-sm text-gray-600">
+        {/* <p className="mt-3 text-sm text-gray-600">
           Verified Purchases: {summary?.verifiedPurchaseCount || 0} (
           {summary?.verifiedPurchasePercentage?.toFixed(2) || "0.00"}%)
-        </p>
+        </p> */}
       </div>
 
       <button
@@ -108,7 +108,7 @@ const Reviews = () => {
                   <Star
                     key={i}
                     className={`w-4 h-4 ${
-                      i < review.rating ? "text-yellow-400" : "text-gray-300"
+                      i < review.rating ? "text-orange-500 fill-orange-500" : "text-gray-300"
                     }`}
                   />
                 ))}

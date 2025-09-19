@@ -22,32 +22,32 @@ export const useQuantity = () => {
 
   return useMutation({
     mutationFn: updateQuantity,
-    onMutate: async ({ itemId, quantity }) => {
-      await queryClient.cancelQueries({ queryKey: ['cart'] })
+    // onMutate: async ({ itemId, quantity }) => {
+    //   await queryClient.cancelQueries({ queryKey: ['cart'] })
 
-      const prevCart = queryClient.getQueryData(['cart']);
-      console.log(prevCart)
+    //   const prevCart = queryClient.getQueryData(['cart']);
+    //   console.log(prevCart)
 
-      if (prevCart && typeof prevCart === 'object') {
-        const updatedCart = {
-          ...prevCart, data: {
-            ...prevCart?.data,
-            cart: {
-              ...prevCart?.data?.cart,
-              items: prevCart?.data?.cart?.items?.map((item: any) =>
-                item.product.id === itemId ? { ...item, quantity } : item
-              )
+    //   if (prevCart && typeof prevCart === 'object') {
+    //     const updatedCart = {
+    //       ...prevCart, data: {
+    //         ...prevCart?.data,
+    //         cart: {
+    //           ...prevCart?.data?.cart,
+    //           items: prevCart?.data?.cart?.items?.map((item: any) =>
+    //             item.product.id === itemId ? { ...item, quantity } : item
+    //           )
 
-            }
-          }
-        }
-        console.log("hello")
-        console.log("updatedCart", updatedCart)
-        queryClient.setQueryData(['cart'], updatedCart)
-      }
+    //         }
+    //       }
+    //     }
+    //     console.log("hello")
+    //     console.log("updatedCart", updatedCart)
+    //     queryClient.setQueryData(['cart'], updatedCart)
+    //   }
 
-      return { prevCart };
-    },
+    //   return { prevCart };
+    // },
     onSuccess: (data) => {
       toast.success(data.message || 'Quantity updated', {
         position: 'top-center',

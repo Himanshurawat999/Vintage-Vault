@@ -9,19 +9,22 @@ import { useEditCategory } from "../../hooks/adminHooks/useEditCategory";
 import { useSearchParams } from "react-router";
 import { useCategories } from "../../hooks/userHooks/useCategories";
 import { useEffect } from "react";
+import LoadingScreen from "../userComponent/LoadingScreen";
 
-const EditCategory = () => {
+const EditCategory = ({ onSuccess, status }: { onSuccess: () => void, status:string }) => {
   const { mutate } = useEditCategory();
-  const { data: categoriesData, isLoading } = useCategories();
+  const { data: categoriesData, isLoading: categoriesDataLoading } = useCategories(status);
   const [searchParams] = useSearchParams();
 
   const id = searchParams.get("id");
+  console.log(id)
+  console.log(categoriesData)
   const category = categoriesData?.data?.categories?.find(
     (category: any) => category.id === id
   );
 
   console.log("searchParams", searchParams.get("id"));
-  console.log(category);
+  // console.log(category);
 
   const {
     register,
@@ -32,8 +35,8 @@ const EditCategory = () => {
     resolver: zodResolver(addCategorySchema),
     defaultValues: {
       name: "",
-        description: "",
-        isActive: false,
+      description: "",
+      isActive: false,
     },
   });
 
@@ -50,10 +53,11 @@ const EditCategory = () => {
   const onSubmit = (data: AddCategoryFormValues) => {
     console.log("Submitting:", data);
     id && mutate({ id, payload: data });
+    onSuccess();
   };
 
   return (
-    !isLoading && (
+    categoriesDataLoading ? (<LoadingScreen />) : (
       <div className="mb-4">
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <fieldset className="custom-fieldset">

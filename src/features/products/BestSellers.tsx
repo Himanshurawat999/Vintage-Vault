@@ -2,7 +2,7 @@ import Card from "../../components/userComponent/Card";
 import { useProductsData } from "../../hooks/userHooks/useProductsData";
 
 const BestSellers = () => {
-  const { data, isLoading } = useProductsData();
+  const { data, isLoading } = useProductsData(true);
 
   return (
     <div className="px-4 py-10 lg:px-10 lg:pt-28">

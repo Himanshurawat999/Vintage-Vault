@@ -1,15 +1,9 @@
-import { useState } from "react";
-import { useProductDetails } from "../../hooks/userHooks/useProductDetails";
 import { useNavigate } from "react-router";
 
 const Card = ({ product }: { product: any }) => {
-  const [productId, setProductId] = useState(null);
-  const { data } = useProductDetails(productId);
   const navigate = useNavigate();
-  console.log(data);
 
   const handleClick = () => {
-    setProductId(product.id);
     navigate(`/products/${product.id}`);
   };
 
