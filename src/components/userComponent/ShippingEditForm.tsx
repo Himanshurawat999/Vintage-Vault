@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import { useGetShipping } from "../../hooks/userHooks/useGetShipping";
 import { useSearchParams } from "react-router";
 
-const ShippingEditForm = () => {
+const ShippingEditForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const { mutate: editShipping } = useEditShipping();
   const { data: addresses } = useGetShipping();
   const [searchParams] = useSearchParams();
@@ -19,7 +19,7 @@ const ShippingEditForm = () => {
   const address = addresses?.data?.addresses?.find(
     (address: any) => address.id === shippingId
   );
-  console.log(shippingId)
+  console.log(shippingId);
   console.log(address);
 
   const {
@@ -61,8 +61,9 @@ const ShippingEditForm = () => {
   }, [address, reset]);
 
   const onSubmit = (payload: ShippingFormInput) => {
-    shippingId && editShipping({shippingId, payload});
-    console.log(payload)
+    shippingId && editShipping({ shippingId, payload });
+    console.log(payload);
+    onSuccess();
   };
 
   return (
@@ -192,13 +193,17 @@ const ShippingEditForm = () => {
       {/* Default Address */}
       <label className="flex items-center gap-3">
         <p className="font-medium text-zinc-800">Default Address</p>
-        <input type="checkbox" className="checkbox" {...register("isDefault")} />
+        <input
+          type="checkbox"
+          className="checkbox"
+          {...register("isDefault")}
+        />
       </label>
 
       <LoadingButton
         isPending={isSubmitting}
         type="submit"
-        text="Add Address"
+        text="Edit Address"
       />
     </form>
   );

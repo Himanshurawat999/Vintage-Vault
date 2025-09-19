@@ -1,13 +1,14 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import apiClient from '../../api/apiClient';
 
-const fetchOrder = async (status:string): Promise<any> => {
+const fetchOrder = async (status?:string): Promise<any> => {
   console.log(status)
-  const res = await apiClient.get(`/orders?status=${status}`);
+  const url = status ? `/orders?status=${status}` : `/orders`
+  const res = await apiClient.get(url);
   return res.data;
 };
 
-export const useGetOrder = (status:string) => {
+export const useGetOrder = (status?:string) => {
   return useQuery<any>({
     queryKey: ['orders', status],
     queryFn: () => fetchOrder(status),

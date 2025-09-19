@@ -133,12 +133,12 @@ const Products = () => {
               )}
             </div>
           </div>
-          <a
-            href="#product"
-            className="fixed z-50 left-2 bottom-5 w-10 h-10 rounded-full bg-orange-400 flex items-center justify-center"
+          <button
+            onClick={() => window.scrollTo(0,0)}
+            className="fixed z-50 left-2 bottom-5 w-10 h-10 rounded-full bg-orange-400 cursor-pointer flex items-center justify-center"
           >
             <ArrowBigUpDash />
-          </a>
+          </button>
         </div>
       )}
       <Footer />

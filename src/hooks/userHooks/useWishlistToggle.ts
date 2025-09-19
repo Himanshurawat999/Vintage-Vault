@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useAddWishlist } from "./useAddWishlist";
 import { useRemoveWishlist } from "./useRemoveWishlist";
 import { useGetWishlist } from "./useGetWishlist";

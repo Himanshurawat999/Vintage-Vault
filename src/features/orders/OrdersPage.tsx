@@ -3,15 +3,11 @@ import { useLocation } from "react-router";
 import NavBar from "../../components/userComponent/NavBar";
 import { useGetShipping } from "../../hooks/userHooks/useGetShipping";
 import { useCreateOrder } from "../../hooks/userHooks/useCreateOrder";
+import LoadingScreen from "../../components/userComponent/LoadingScreen";
 
 const OrdersPage = () => {
-  const {
-    data: cartDetails,
-    isLoading: cartLoading,
-    isError,
-    error,
-  } = useGetCart();
-  const { data: fetchShippingAddresses } = useGetShipping();
+  const { data: cartDetails, isLoading: cartLoading } = useGetCart();
+  const { data: addresses, isLoading: addressesLoading } = useGetShipping();
   const { mutate: createOrder, isPending: creatingOrder } = useCreateOrder();
   // const {shippingId} = useParams()
   const location = useLocation();
@@ -19,7 +15,7 @@ const OrdersPage = () => {
   console.log(shippingId);
 
   const cart = cartDetails?.data?.cart;
-  const address = fetchShippingAddresses?.data?.addresses?.find(
+  const address = addresses?.data?.addresses?.find(
     (add: any) => add.id === shippingId
   );
 
@@ -48,121 +44,121 @@ const OrdersPage = () => {
     createOrder(orderPayload);
   };
 
-  if (cartLoading) return <p>Loading your cart...</p>;
-  if (isError)
-    return (
-      <p>Error: {error instanceof Error ? error.message : "Unknown error"}</p>
-    );
-
   return (
     <>
       <NavBar />
-      <div className="max-w-7xl mx-auto px-4 pt-14 mb-10 sm:px-6 lg:px-8">
-        <div className="mt-8 lg:mt-12 flex flex-col lg:flex-row gap-8 lg:gap-14">
-          <div className="lg:w-2/3">
-            <div className="flex justify-between mb-8 md:mb-12">
-              <h3 className="font-fraunces font-light text-2xl md:text-3xl lg:text-5xl mb-4">
-                Order Summary
-              </h3>
-              <div className="w-[200px] lg:w-[250px]">
-                <h3 className="lg:text-xl font-semibold text-gray-800 mb-2 mt-2">
-                  Delivering to {address?.firstName}
+      {cartLoading || addressesLoading ? (
+        <LoadingScreen />
+      ) : (
+        <div className="max-w-7xl mx-auto px-4 pt-14 mb-10 sm:px-6 lg:px-8">
+          <div className="mt-8 lg:mt-12 flex flex-col lg:flex-row gap-8 lg:gap-14">
+            <div className="lg:w-2/3">
+              <div className="flex justify-between mb-8 md:mb-12">
+                <h3 className="font-fraunces font-light text-2xl md:text-3xl lg:text-5xl mb-4">
+                  Order Summary
                 </h3>
-                <p className="text-xs text-gray-600">
-                  {address?.addressLine1},{" "}
-                  {address?.addressLine2 && address?.addressLine2},{" "}
-                  {address?.city}, {address?.state}, {address?.country}
-                </p>
+                <div className="w-[200px] lg:w-[250px]">
+                  <h3 className="lg:text-xl font-semibold text-gray-800 mb-2 mt-2">
+                    Delivering to {address?.firstName}
+                  </h3>
+                  <p className="text-xs text-gray-600">
+                    {address?.addressLine1},{" "}
+                    {address?.addressLine2 && address?.addressLine2},{" "}
+                    {address?.city}, {address?.state}, {address?.country}
+                  </p>
+                </div>
               </div>
-            </div>
 
-            <div className="space-y-4">
-              {cart?.items.map((item: any) => (
-                <div
-                  key={item.product.id}
-                  className="flex justify-between items-start border-b border-gray-200 pb-4"
-                >
-                  <div className="flex items-center gap-4 sm:gap-12">
-                    <div className="w-14 h-14">
-                      <img
-                        src={item.product.images[0]}
-                        alt={item.product.name}
-                        className="w-full h-full object-cover rounded-sm"
-                      />
-                    </div>
+              <div className="space-y-4">
+                {cart?.items.map((item: any) => (
+                  <div
+                    key={item.product.id}
+                    className="flex justify-between items-start border-b border-gray-200 pb-4"
+                  >
+                    <div className="flex items-center gap-4 sm:gap-12">
+                      <div className="w-14 h-14">
+                        <img
+                          src={item.product.images[0]}
+                          alt={item.product.name}
+                          className="w-full h-full object-cover rounded-sm"
+                        />
+                      </div>
 
-                    <div className="flex gap-8">
-                      <p className="font-semibold text-gray-600 mb-1 sm:w-[300px]">
-                        {item.product.name}
-                      </p>
-                      <p className="text-sm text-gray-600">
-                        Qty {item.quantity}
-                      </p>
-                      <p className="text-lg font-semibold text-gray-800">
-                      ${(item.product.price * item.quantity).toFixed(2)}
-                      </p>
+                      <div className="flex gap-8">
+                        <p className="font-semibold text-gray-600 mb-1 sm:w-[300px]">
+                          {item.product.name}
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          Qty {item.quantity}
+                        </p>
+                        <p className="text-lg font-semibold text-gray-800">
+                          ${(item.product.price * item.quantity).toFixed(2)}
+                        </p>
+                      </div>
                     </div>
                   </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="w-full lg:w-1/3 lg:mt-10 bg-gray-50 p-6 rounded-sm shadow-lg self-start">
+              <h3 className="text-xl font-semibold text-gray-900">
+                Order Details
+              </h3>
+              <div className="mt-4 space-y-2">
+                <div className="flex justify-between">
+                  <span className="text-lg text-gray-600">Total items</span>
+                  <span className="text-lg font-semibold text-gray-600">
+                    {cart?.summary?.totalItems}
+                  </span>
                 </div>
-              ))}
-            </div>
-          </div>
+                <div className="flex justify-between">
+                  <span className="text-lg text-gray-600">Total quantity</span>
+                  <span className="text-lg font-semibold text-gray-600">
+                    {cart?.summary?.totalQuantity}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-lg text-gray-600">Subtotal</span>
+                  <span className="text-lg font-semibold text-gray-600">
+                    ${cart?.summary?.subtotal}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-lg text-gray-700">Shipping</span>
+                  <span className="text-lg font-semibold text-gray-600">
+                    {cart?.summary?.shippingAmount
+                      ? cart?.summary?.shippingAmount
+                      : "Free"}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-lg text-gray-600">Tax</span>
+                  <span className="text-lg font-semibold text-gray-600">
+                    ${cart?.summary?.estimatedTax}
+                  </span>
+                </div>
 
-          <div className="w-full lg:w-1/3 lg:mt-10 bg-gray-50 p-6 rounded-sm shadow-lg self-start">
-            <h3 className="text-xl font-semibold text-gray-900">
-              Order Details
-            </h3>
-            <div className="mt-4 space-y-2">
-              <div className="flex justify-between">
-                <span className="text-lg text-gray-600">Total items</span>
-                <span className="text-lg font-semibold text-gray-600">
-                  {cart?.summary?.totalItems}
-                </span>
+                <div className="flex justify-between mt-4 border-t border-gray-200 pt-4">
+                  <span className="text-lg text-gray-600">Total</span>
+                  <span className="text-xl font-semibold text-gray-900">
+                    ${cart?.summary?.estimatedTotal}
+                  </span>
+                </div>
               </div>
-              <div className="flex justify-between">
-                <span className="text-lg text-gray-600">Total quantity</span>
-                <span className="text-lg font-semibold text-gray-600">
-                  {cart?.summary?.totalQuantity}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-lg text-gray-600">Subtotal</span>
-                <span className="text-lg font-semibold text-gray-600">
-                  ${cart?.summary?.subtotal}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-lg text-gray-700">Shipping</span>
-                <span className="text-lg font-semibold text-gray-600">
-                {cart?.summary?.shippingAmount ? cart?.summary?.shippingAmount : "Free"}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-lg text-gray-600">Tax</span>
-                <span className="text-lg font-semibold text-gray-600">
-                  ${cart?.summary?.estimatedTax}
-                </span>
-              </div>
-
-              <div className="flex justify-between mt-4 border-t border-gray-200 pt-4">
-                <span className="text-lg text-gray-600">Total</span>
-                <span className="text-xl font-semibold text-gray-900">
-                  ${cart?.summary?.estimatedTotal}
-                </span>
-              </div>
+              <button
+                onClick={handleConfirm}
+                disabled={creatingOrder}
+                className={`mt-6 inline-block w-full py-3 text-center text-lg font-medium text-white cursor-pointer ${
+                  creatingOrder ? "bg-orange-400" : "bg-orange-600"
+                }   hover:bg-orange-700 rounded-lg shadow-xs`}
+              >
+                {creatingOrder ? "Placing order..." : "Confirm your order"}
+              </button>
             </div>
-            <button
-              onClick={handleConfirm}
-              disabled={creatingOrder}
-              className={`mt-6 inline-block w-full py-3 text-center text-lg font-medium text-white cursor-pointer ${
-                creatingOrder ? "bg-orange-400" : "bg-orange-600"
-              }   hover:bg-orange-700 rounded-lg shadow-xs`}
-            >
-              {creatingOrder ? "Placing order..." : "Confirm your order"}
-            </button>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

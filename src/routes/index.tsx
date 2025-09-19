@@ -31,13 +31,15 @@ export const router = createBrowserRouter([
         <ScrollRestoration
           getKey={(location) => {
             // Check if the current route is the homepage
-            if (location.pathname === "/") {
-              window.scrollTo(0,0)
-              return "home";
-            }
+            // if (location.pathname === "/") {
+            //   window.scrollTo(0,0)
+            //   return "home";
+            // }
 
             // Restore based on pathname
             // return location.pathname;
+
+            window.scrollTo(0, 0);
 
             // Restore based on a unique location key (default behavior)
             return location.key;

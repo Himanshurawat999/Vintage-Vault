@@ -52,10 +52,10 @@ export function Shipping() {
 
   const renderForm = () => {
     if (modalMode == "add") {
-      return <ShippingForm />;
+      return <ShippingForm onSuccess={closeModal} />;
     }
     if (modalMode == "edit") {
-      return <ShippingEditForm />;
+      return <ShippingEditForm onSuccess={closeModal} />;
     }
     return null;
   };

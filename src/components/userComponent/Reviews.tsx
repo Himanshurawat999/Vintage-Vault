@@ -39,7 +39,7 @@ const Reviews = () => {
         <h2 className="text-2xl font-semibold mb-4">Reviews</h2>
         <div className="flex items-center space-x-4">
           <span className="text-4xl font-bold">
-            {summary?.averageRating.toFixed(1) || "0.0"}
+            {`${summary?.averageRating.toFixed(0)}.0` || "0.0"}
           </span>
           <div className="flex space-x-1">
             {[...Array(5)].map((_, i) => (
@@ -117,7 +117,7 @@ const Reviews = () => {
             <p className="mt-2 text-gray-700">{review.comment}</p>
             <div className="mt-2 text-sm text-gray-500">
               By {review.user.firstName} {review.user.lastName} •{" "}
-              {new Date(review.createdAt).toLocaleDateString()}
+              {new Date(review.createdAt).toLocaleString()}
               {review.isVerifiedPurchase && (
                 <span className="ml-2 text-green-600 font-medium">
                   Verified Purchase

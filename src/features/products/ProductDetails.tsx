@@ -104,7 +104,7 @@ const ProductDetails = () => {
                   ))}
                 </div>
                 <span className="text-sm text-zinc-600">
-                  {summary?.averageRating.toFixed(1) || "0.0"}
+                  {`${summary?.averageRating.toFixed(0)}.0` || "0.0"}
                 </span>
                 <span className="text-sm text-zinc-600">
                   ({summary?.totalReviews || 0} reviews)

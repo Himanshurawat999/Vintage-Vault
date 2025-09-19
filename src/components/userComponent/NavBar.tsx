@@ -112,7 +112,7 @@ const NavBar = () => {
           onChange={(e) => handleChange(e)}
         />
         <Search className="absolute top-0 right-2 w-4 text-zinc-600" />
-        <ul className="absolute top-full left-0 right-0 bg-white border max-h-60 overflow-auto z-10">
+        <ul className="absolute top-full left-0 right-0 bg-white border border-t-0 border-zinc-100 shadow-md text-zinc-600 text-sm max-h-60 overflow-auto z-10">
           {searchResult?.data?.products?.length === 0 ? (
             <li>no such product</li>
           ) : (
@@ -190,10 +190,23 @@ const NavBar = () => {
           className="text-zinc-600 hover:text-orange-500 w-4"
         />
         {showProfile && (
-          <div className="absolute w-28 px-2 top-7 -right-6 bg-white border max-h-60 z-10">
-            <p>
-              {userProfile.data.user.firstName} {userProfile.data.user.lastName}
-            </p>
+          <div className="absolute w-28 top-5 -right-1.5 bg-white border max-h-60 z-10 text-zinc-600 text-sm shadow-sm">
+            <p className="hover:bg-zinc-100 p-1">
+                {userProfile.data.user.firstName}{" "}
+                {userProfile.data.user.lastName}
+              </p>
+              <Link
+                to={"/user-profile"}
+                className="hover:bg-zinc-100 cursor-pointer p-1 block"
+              >
+                Setting
+              </Link>
+              <div
+                onClick={handleLogout}
+                className="hover:bg-zinc-100 text-red-400 cursor-pointer p-1"
+              >
+                Logout
+              </div>
           </div>
         )}
       </div>

@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { useAddShipping } from "../../hooks/userHooks/useAddShipping";
 import LoadingButton from "../animata/LoadingButton";
 
-const ShippingForm = () => {
+const ShippingForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const { mutate: addShipping } = useAddShipping();
 
   const {
@@ -19,8 +19,9 @@ const ShippingForm = () => {
   });
 
   const onSubmit = (data: ShippingFormInput) => {
-    console.log(data)
+    console.log(data);
     addShipping(data);
+    onSuccess();
   };
 
   return (
@@ -150,7 +151,11 @@ const ShippingForm = () => {
       {/* Default Address */}
       <label className="flex items-center gap-3">
         <p className="font-medium text-zinc-800">Default Address</p>
-        <input type="checkbox" className="checkbox" {...register("isDefault")} />
+        <input
+          type="checkbox"
+          className="checkbox"
+          {...register("isDefault")}
+        />
       </label>
 
       <LoadingButton
