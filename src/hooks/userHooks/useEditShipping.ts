@@ -3,6 +3,8 @@ import apiClient from "../../api/apiClient";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router";
 import type { ShippingFormInput } from "../../types/shipping.schema";
+import type { AxiosError } from "axios";
+import type { ErrorResponse } from "../../types/registration.schema";
 
 const editShipping = async ({shippingId, payload}:{shippingId:string, payload: ShippingFormInput}): Promise<any> => {
     const res = await apiClient.patch(`/shipping-addresses/${shippingId}`, payload);
@@ -23,9 +25,9 @@ export const useEditShipping = () => {
             navigate("/shipping")
             queryClient.invalidateQueries({queryKey: ['shippingAddresses']})
         },
-        onError: (error) => {
-            console.error('Registration failed : ', error?.response?.data?.error?.message)
-            const errorMsg = error?.response?.data?.error?.message;
+        onError: (error:AxiosError) => {
+            console.error('Registration failed : ', (error?.response?.data as ErrorResponse)?.error?.message)
+            const errorMsg = (error?.response?.data as ErrorResponse)?.error?.message;
             toast.error(errorMsg, {
                 position: "top-right"
             })

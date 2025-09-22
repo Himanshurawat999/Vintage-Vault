@@ -19,7 +19,6 @@ const AddProductForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const {
     register,
     handleSubmit,
-    reset,
     watch,
     setValue,
     formState: { errors, isSubmitting },
@@ -77,6 +76,7 @@ const AddProductForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
   const onSubmit = async (data: AddProductFormValues) => {
     try {
+      console.log(data)
       const newFiles = (data.images || []).filter(
         (img): img is File => img instanceof File
       );
@@ -95,6 +95,8 @@ const AddProductForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
       const finalImageUrls = [...existingUrls, ...newUrls];
 
+      console.log(finalImageUrls)
+
       const payload = {
         ...data,
         images: finalImageUrls,
@@ -108,9 +110,11 @@ const AddProductForm = ({ onSuccess }: { onSuccess: () => void }) => {
     }
   };
 
+  const onError = (err:any) => console.log(err)
+
   return (
     <div className="mb-4">
-      <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+      <form onSubmit={handleSubmit(onSubmit, onError)} className="w-full">
         {/* Name */}
         <fieldset className="custom-fieldset">
           <legend>Product Name</legend>

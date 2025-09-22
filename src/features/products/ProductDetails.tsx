@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { useParams } from "react-router";
-import { Heart, Minus, Plus, Star, Truck } from "lucide-react";
+import {
+  Heart,
+  Minus,
+  Plus,
+  Star,
+  Truck,
+} from "lucide-react";
 import { useProductDetails } from "../../hooks/userHooks/useProductDetails";
 import NavBar from "../../components/userComponent/NavBar";
 import Footer from "../../components/userComponent/Footer";
@@ -11,8 +17,12 @@ import { useGetReviewSum } from "../../hooks/userHooks/useGetReviewSum";
 import LoadingScreen from "../../components/userComponent/LoadingScreen";
 
 const ProductDetails = () => {
+  document.title = `Vintage Vault | Product Details`
+
   const { id } = useParams();
   const [quantity, setQuantity] = useState<number>(1);
+  const [selectedImg, setSelectedImg] = useState<number>(0);
+  console.log(selectedImg);
 
   const { data: productDetails, isLoading: productDetailLoading } =
     useProductDetails(id);
@@ -29,7 +39,7 @@ const ProductDetails = () => {
     loading: wishlistLoading,
   } = useWishlistToggle(id);
 
-  console.log(isInWishlist);
+  // console.log(isInWishlist);
 
   const handleCart = () => {
     // console.log("CArt");
@@ -61,18 +71,27 @@ const ProductDetails = () => {
         <LoadingScreen />
       ) : (
         <>
-          <div className="w-full sm:px-12 md:px-20 pt-28 flex flex-col sm:flex-row gap-x-10 lg:gap-x-24">
-            <div
-              id="left"
-              className="w-[80%] mx-auto sm:w-1/2 h-[400px] sm:h-[500px] relative"
-            >
-              <div className="w-full h-full">
-                <img
-                  src={product?.images[0]}
-                  alt={product?.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
+          <div className="w-full sm:px-12 md:px-20 pt-24 flex flex-col sm:flex-row gap-x-10 lg:gap-x-24">
+            <div id="left" className="w-[80%] mx-auto sm:w-1/2 relative">
+                <div className="h-[400px] sm:h-[490px]">
+                  <img
+                    src={product.images[selectedImg]}
+                    alt={product.images[selectedImg]}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="flex justify-center gap-1 mt-4 mx-auto">
+                  {product?.images.map((image: string, idx: number) => (
+                    <div key={image} className="size-20 border border-zinc-400">
+                      <img
+                        src={image}
+                        alt={image}
+                        onClick={() => setSelectedImg(idx)}
+                        className={`w-full h-full object-cover cursor-pointer ${selectedImg == idx ? "optional:0" : "opacity-35"}`}
+                      />
+                    </div>
+                  ))}
+                </div>
               <span onClick={handleWishlist} className="absolute top-4 right-2">
                 <Heart
                   className={`cursor-pointer ${

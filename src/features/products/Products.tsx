@@ -4,26 +4,44 @@ import Footer from "../../components/userComponent/Footer";
 import NavBar from "../../components/userComponent/NavBar";
 import { useCategories } from "../../hooks/userHooks/useCategories";
 import { useProductsData } from "../../hooks/userHooks/useProductsData";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import LoadingScreen from "../../components/userComponent/LoadingScreen";
+import { useLocation, useNavigate } from "react-router";
 
 const Products = () => {
+  document.title = `Vintage Vault | Product`;
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  // Now by using {} if location.state is null or undefined, you’ll get categoryIdFromNav = undefined
+  const { categoryIdFromNav, categoryIdxFromNav } = location.state || {};
+  console.log(categoryIdFromNav);
+  const {search} = location.state || {};
+  console.log(search)
+
   const [catToggle, setCatToggle] = useState(true);
   const [categoryId, setcategoryId] = useState<string | null>(null);
   const [catIndex, setCatIndex] = useState<number | null>(null);
-  console.log(categoryId);
+  const [pageNum, setPageNum] = useState<number>(1);
   const { data: productData, isLoading: productDataLoading } = useProductsData(
     true,
-    categoryId
+    categoryId,
+    pageNum,
+    search
   );
   const { data: categoriesData, isLoading: categoriesDataLoading } =
     useCategories();
 
-  // console.log("productDataLoading : ", productDataLoading);
-  // console.log(productData?.data?.products.length === 0);
+  useEffect(() => {
+    if (categoryIdFromNav) {
+      setcategoryId(categoryIdFromNav);
+      setCatIndex(categoryIdxFromNav);
+    }
 
-  //   Books, Fitness, Women's Clothing, Men's Clothing, Audio, Laptops, Smartphones, Electronics
+    //it will help use to clear the state from navigate.
+    navigate(location.pathname, { replace: true });
+  }, [categoryIdFromNav, categoryIdxFromNav, navigate, location.pathname]);
 
   const handleCategory = (
     catName: string,
@@ -36,6 +54,23 @@ const Products = () => {
     setCatIndex(() => categoryIndex);
   };
 
+  const handlePrev = () => {
+    const num = Math.max(1, pageNum - 1);
+    console.log("prev : ",num)
+    setPageNum(num);
+    window.scrollTo(0, 0);
+  };
+
+  const handleNext = () => {
+    const num = Math.min(
+      productData?.data?.pagination?.totalPages,
+      pageNum + 1
+    );
+    console.log("next : ",num);
+    setPageNum(num);
+    window.scrollTo(0, 0);
+  };
+
   return (
     <>
       <NavBar />
@@ -43,6 +78,7 @@ const Products = () => {
         <LoadingScreen />
       ) : (
         <div id="product" className="flex pt-24">
+          {/* Categories */}
           <div id="aside" className="w-[22%] ml-4 md:ml-12 mt-2">
             <h3
               className="font-fraunces font-light text-base sm:text-2xl hover:underline cursor-pointer mb-4"
@@ -99,7 +135,8 @@ const Products = () => {
             </AnimatePresence>
           </div>
 
-          <div id="main" className="px-4 pb-10 md:px-10 w-[75%] min-h-screen">
+          {/* Products */}
+          <div id="main" className="px-4 pb-10 mb-10 md:px-10 w-[75%] min-h-screen relative">
             <div className="mb-10 text-center">
               <h1 className="font-fraunces font-light text-2xl sm:text-5xl">
                 {catIndex === null
@@ -132,9 +169,27 @@ const Products = () => {
                 ))
               )}
             </div>
+
+            {/* Pagination */}
+            <div className="w-1/2 mx-auto flex items-center justify-center gap-8 mt-4 md:mt-10 absolute -bottom-6 left-1/4">
+              <button
+                onClick={handlePrev}
+                className="bg-orange-400 hover:bg-orange-500 text-zinc-50 cursor-pointer px-8 py-2"
+              >
+                Back
+              </button>
+              <button
+                onClick={handleNext}
+                className="bg-orange-400 hover:bg-orange-500 text-zinc-50 cursor-pointer px-8 py-2"
+              >
+                Next
+              </button>
+            </div>
           </div>
+
+          {/* window top btn */}
           <button
-            onClick={() => window.scrollTo(0,0)}
+            onClick={() => window.scrollTo(0, 0)}
             className="fixed z-50 left-2 bottom-5 w-10 h-10 rounded-full bg-orange-400 cursor-pointer flex items-center justify-center"
           >
             <ArrowBigUpDash />

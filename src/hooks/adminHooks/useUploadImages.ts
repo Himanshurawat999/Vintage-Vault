@@ -1,6 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
 import apiClient from "../../api/apiClient"
-import type { uploadProductImagesInput } from "../../types/product.schema";
 import toast from "react-hot-toast";
 
 export const uploadImages = async (payload: any): Promise<any> => {
@@ -12,7 +11,7 @@ export const uploadImages = async (payload: any): Promise<any> => {
     });
     return res.data
 }
-    
+
 export const useUploadImages = () => {
     return useMutation({
         mutationFn: uploadImages,

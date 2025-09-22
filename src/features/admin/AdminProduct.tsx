@@ -12,6 +12,8 @@ import DeleteConfirmation from "../../components/adminComponent/DeleteConfirmati
 type ModalMode = "add" | "edit" | "delete" | null;
 
 const AdminProduct: React.FC = () => {
+  document.title = `Vintage Vault | Admin Product`;
+
   const [isActive, setIsActive] = useState<boolean>(true);
   const [modalMode, setModalMode] = useState<ModalMode>(null);
   const [curId, setCurId] = useState<string>("");

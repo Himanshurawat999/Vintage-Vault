@@ -1,20 +1,17 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { loginSchema, type loginInput } from "../../types/registration.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { LucideEye, LucideEyeClosed } from "lucide-react";
 import { useLoginUser } from "../../hooks/userHooks/useLoginUser";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import LoadingButton from "../../components/animata/LoadingButton";
 
 const LoginPage = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const { mutate, isSuccess, isPending } = useLoginUser();
-  const navigate = useNavigate();
+  document.title = `Vintage Vault | Login`;
 
-  useEffect(() => {
-    // if (isSuccess) navigate("/", { replace: true });
-  }, [isSuccess]);
+  const [showPassword, setShowPassword] = useState(false);
+  const { mutate, isPending } = useLoginUser();
 
   const {
     register,

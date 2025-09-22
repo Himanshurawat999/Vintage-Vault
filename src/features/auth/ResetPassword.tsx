@@ -8,6 +8,8 @@ import { Link, useSearchParams } from "react-router";
 import LoadingButton from "../../components/animata/LoadingButton";
 
 const ResetPassword = () => {
+  document.title = `Vintage Vault | Reset`;
+
   const [showPassword, setShowPassword] = useState(false);
   const { mutate, isPending } = useResetPassword();
   const [searchParams] = useSearchParams();

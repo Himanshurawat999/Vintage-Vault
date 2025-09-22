@@ -9,6 +9,8 @@ import LoadingScreen from "../../components/userComponent/LoadingScreen";
 type ModalMode = "status" | "confirmPayment" | "cancel" | null;
 
 const AdminOrder: React.FC = () => {
+  document.title = `Vintage Vault | Admin Order`;
+
   const [status, setStatus] = useState<string>("pending");
   const { data: ordersData, isLoading: orderDataLoading } = useGetOrder(status);
   const [modalMode, setModalMode] = useState<ModalMode>(null);

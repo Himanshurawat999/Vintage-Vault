@@ -4,6 +4,8 @@ import { useGetOrder } from "../../hooks/userHooks/useOrder";
 import LoadingScreen from "../../components/userComponent/LoadingScreen";
 
 const OrderHistory = () => {
+  document.title = `Vintage Vault | Order History`;
+  
   const { data: fetchOrder, isLoading: fetchOrderLoading } = useGetOrder();
   console.log(fetchOrder);
   const navigate = useNavigate();

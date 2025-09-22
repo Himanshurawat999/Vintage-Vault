@@ -1,35 +1,81 @@
 import { Menu, Search, SquareUser, X } from "lucide-react";
-import { useState, type ChangeEvent } from "react";
-import { Link, useNavigate } from "react-router";
+import { useEffect, useRef, useState, type ChangeEvent } from "react";
+import { Link, useLocation, useNavigate } from "react-router";
 import { useSearch } from "../../hooks/userHooks/useSearch";
 import { useUserProfile } from "../../hooks/userHooks/useUserProfile";
 import { motion, AnimatePresence } from "motion/react";
 import { useGetCart } from "../../hooks/userHooks/useGetCart";
 import { useAuthStore } from "../../store/authStore";
+import { useCategories } from "../../hooks/userHooks/useCategories";
 
 const NavBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const [showProfile, setShowProfile] = useState(false);
+  const [_, setShowSuggestions] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+  const [showCategories, setShowCategories] = useState(false);
+
+  // const profileRef = useRef<HTMLDivElement>(null);
+
+  // instantiate outside click hooks
+  // useClickOutside(profileRef, setShowProfile(false));
+
+  // const profileRef = useRef<HTMLElement>(null);
+
   const { data: searchResult } = useSearch(searchTerm);
   const { data: userProfile } = useUserProfile();
   const { data: fetchCart } = useGetCart();
   const cartLen = fetchCart?.data?.cart?.items?.length;
+  const [searchLen, setSearchLen] = useState<number|null>(null);
+  console.log(searchLen)
+
+  useEffect(() => setSearchLen(searchResult?.data?.products?.length),[searchResult])
+
+  const { data: categoriesData } = useCategories();
+
+  const searchMenuRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    console.log(searchLen)
+    const handleOutsideClick = (e: MouseEvent) => {
+      console.log('Mouse Clicked', e.target);
+      if (searchMenuRef.current && !searchMenuRef.current.contains(e.target as Node)) {
+        setSearchLen(null)
+      }
+    };
+    if (searchLen) {
+      document.addEventListener("mousedown", handleOutsideClick);
+    }
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, [searchLen]);
 
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  console.log("pathname : ", pathname);
   const { clearAuth } = useAuthStore();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const term = e.target.value;
     setSearchTerm(term);
     setShowSuggestions(Boolean(term));
+  };
 
-    console.log(searchResult?.data?.products?.length);
+  const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const term = (e.target as HTMLInputElement).value.trim();
+    console.log("term : ",term)
+    if(e.key === 'Enter' && term != "") {
+      // setSearchParams({search:term})
+      console.log("term : ",term)
+      navigate(`/products`, {state: {search: term}})
+    }
+  }
 
-    // console.log(searchTerm);
-    // console.log("Data : ", searchResult);
-    // console.log(Boolean(term));
+  const searchInputRef = useRef<HTMLInputElement>(null)
+
+  const handleSearchClick = () => {
+    const term = searchInputRef.current?.value.trim();
+    if (term) {
+      navigate(`/products`, { state: { search: term } });
+    }
   };
 
   const handleSelect = (id: string) => {
@@ -48,6 +94,13 @@ const NavBar = () => {
   };
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
+
+  const handleCategory = (categoryId: string, index: number) => {
+    console.log(categoryId);
+    navigate(`/products`, {
+      state: { categoryIdFromNav: categoryId, categoryIdxFromNav: index },
+    });
+  };
 
   return (
     <nav className="fixed z-50 bg-white w-full h-16 flex justify-between items-center px-2 md:px-8 shadow-sm">
@@ -104,22 +157,24 @@ const NavBar = () => {
         )}
       </AnimatePresence>
 
-      <div className="w-[70%] md:w-[30%] relative">
+      <div ref={searchMenuRef} className="w-[70%] md:w-[30%] relative">
         <input
           type="text"
           placeholder="What are you searching for ?"
           className="border-b px-2 outline-none w-full"
           onChange={(e) => handleChange(e)}
+          onKeyDown={(e) => handleEnter(e)}
+          ref={searchInputRef}
         />
-        <Search className="absolute top-0 right-2 w-4 text-zinc-600" />
+        <Search onClick={handleSearchClick} className="absolute top-0 right-2 w-4 text-zinc-600 cursor-pointer" />
         <ul className="absolute top-full left-0 right-0 bg-white border border-t-0 border-zinc-100 shadow-md text-zinc-600 text-sm max-h-60 overflow-auto z-10">
-          {searchResult?.data?.products?.length === 0 ? (
+          {searchLen === 0 ? (
             <li>no such product</li>
           ) : (
             searchResult?.data?.products.map((p: any) => (
               <li
                 key={p.id}
-                className="px-2 py-1 hover:bg-gray-100 cursor-pointer"
+                className={`px-2 py-1 hover:bg-gray-100 hover:text-orange-500 cursor-pointer ${searchLen === null ? "hidden" : "block"}`}
                 onClick={() => handleSelect(p.id)}
               >
                 {p.name}
@@ -128,22 +183,58 @@ const NavBar = () => {
           )}
         </ul>
       </div>
-      <ul className="md:flex gap-4 hidden">
+      <ul className="md:flex gap-4 hidden relative">
         <Link
           to={"/"}
-          className="hover:text-orange-500 hover:underline hover:underline-offset-4"
+          className={`hover:text-orange-500 ${
+            pathname === "/"
+              ? "text-orange-500 underline underline-offset-4"
+              : ""
+          }`}
         >
           Home
         </Link>
         <Link
           to={"/products"}
-          className="hover:text-orange-500 hover:underline hover:underline-offset-4"
+          onMouseEnter={() => setShowCategories(true)}
+          onMouseLeave={() => setShowCategories(false)}
+          className={`hover:text-orange-500 ${
+            pathname === "/products"
+              ? "text-orange-500 underline underline-offset-4"
+              : ""
+          }`}
         >
           Product
         </Link>
+        {showCategories && (
+          <div
+            onMouseEnter={() => setShowCategories(true)}
+            onMouseLeave={() => setShowCategories(false)}
+            className="w-full h-80 px-4 py-2 absolute top-6 -right-6 bg-white shadow-sm z-10 text-zinc-600 overflow-y-auto"
+          >
+            <h4 className="text-zinc-800 mb-2">Category</h4>
+            <ul className="grid grid-cols-1">
+              {categoriesData?.data?.categories.map(
+                (category: any, index: number) => (
+                  <li
+                    key={category.id}
+                    onClick={() => handleCategory(category.id, index)}
+                    className="py-1 px-1 text-sm hover:bg-zinc-100 hover:text-orange-500 cursor-pointer"
+                  >
+                    {category.name}
+                  </li>
+                )
+              )}
+            </ul>
+          </div>
+        )}
         <Link
           to={"/cart"}
-          className="hover:text-orange-500 hover:underline hover:underline-offset-4 relative"
+          className={`hover:text-orange-500 relative ${
+            pathname === "/cart"
+              ? "text-orange-500 underline underline-offset-4"
+              : ""
+          }`}
         >
           Cart
           <span className="absolute -top-1.5 text-[10px] text-white rounded-full px-1 bg-orange-500">
@@ -155,7 +246,11 @@ const NavBar = () => {
             // onClick={() => setShowProfile(() => !showProfile)}
             onMouseEnter={() => setShowProfile(true)}
             onMouseLeave={() => setShowProfile(false)}
-            className="text-zinc-600 hover:text-orange-500"
+            className={`hover:text-orange-500 ${
+              pathname === "/user-profile"
+                ? "text-orange-500 underline"
+                : "text-zinc-600"
+            }`}
           />
           {showProfile && (
             <div
@@ -186,27 +281,27 @@ const NavBar = () => {
 
       <div className="relative block md:hidden">
         <SquareUser
-          onClick={handleProfile}
+          // onClick={handleProfile}
+          onTouchStart={handleProfile}
           className="text-zinc-600 hover:text-orange-500 w-4"
         />
         {showProfile && (
-          <div className="absolute w-28 top-5 -right-1.5 bg-white border max-h-60 z-10 text-zinc-600 text-sm shadow-sm">
+          <div className="absolute w-28 top-5 -right-1.5 bg-white max-h-60 z-10 text-zinc-600 text-sm shadow-sm">
             <p className="hover:bg-zinc-100 p-1">
-                {userProfile.data.user.firstName}{" "}
-                {userProfile.data.user.lastName}
-              </p>
-              <Link
-                to={"/user-profile"}
-                className="hover:bg-zinc-100 cursor-pointer p-1 block"
-              >
-                Setting
-              </Link>
-              <div
-                onClick={handleLogout}
-                className="hover:bg-zinc-100 text-red-400 cursor-pointer p-1"
-              >
-                Logout
-              </div>
+              {userProfile.data.user.firstName} {userProfile.data.user.lastName}
+            </p>
+            <Link
+              to={"/user-profile"}
+              className="hover:bg-zinc-100 cursor-pointer p-1 block"
+            >
+              Setting
+            </Link>
+            <div
+              onClick={handleLogout}
+              className="hover:bg-zinc-100 text-red-400 cursor-pointer p-1"
+            >
+              Logout
+            </div>
           </div>
         )}
       </div>

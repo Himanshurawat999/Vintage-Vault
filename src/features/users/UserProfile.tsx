@@ -6,7 +6,9 @@ import UserForm from "../../components/userComponent/UserForm";
 import NavBar from "../../components/userComponent/NavBar";
 
 const UserProfile = () => {
-  const { data: userProfile, isLoading } = useUserProfile();
+  document.title = `Vintage Vault | User Profile`;
+
+  const { data: userProfile } = useUserProfile();
   const [modalMode, setModalMode] = useState<"add" | null>(null);
   console.log(userProfile);
 
@@ -26,17 +28,17 @@ const UserProfile = () => {
   return (
     <>
     <NavBar />
-      <div className="flex h-screen px-10 py-10">
-        <div id="left" className="w-1/2 flex items-center justify-center">
+      <div className="flex flex-col md:flex-row h-screen px-10 pt-20 py-10">
+        <div id="left" className="w-full lg:w-1/2 flex items-center justify-center">
           <div className="w-[80%] rounded-2xl overflow-hidden">
             <img src="/Images/userPic.jpg" alt="userPic" />
           </div>
         </div>
         <div
           id="right"
-          className="w-1/2 flex flex-col items-center justify-center"
+          className="w-full lg:w-1/2 flex flex-col items-center justify-center"
         >
-          <p className="text-9xl font-fraunces">
+          <p className="text-4xl lg:text-9xl font-fraunces">
             {userProfile?.data?.user?.firstName}{" "}
             {userProfile?.data?.user?.lastName}
           </p>

@@ -19,7 +19,7 @@ const LoadingButton = ({
     <button
       disabled={isDisabled}
       type={type}
-      className="w-[90%] bg-gray-200 hover:bg-zinc-300 py-2 px-6 rounded-md mt-2 ml-1 font-medium text-lg text-zinc-800 cursor-pointer disabled:cursor-not-allowed"
+      className={`w-[90%] ${isPending ? "bg-zinc-200 hover:bg-zinc-300" : "bg-orange-400 hover:bg-orange-500 text-zinc-200"} py-2 px-6 rounded-md mt-2 ml-1 font-medium text-lg cursor-pointer disabled:cursor-not-allowed`}
     >
       <AnimatePresence mode="wait" initial={false}>
         <motion.span
@@ -31,7 +31,7 @@ const LoadingButton = ({
           className="flex items-center justify-center gap-2"
         >
           {isPending ? (
-            <Loader className="h-4 w-4 animate-spin my-1" />
+            <Loader className="h-4 w-4 animate-spin my-1 " />
           ) : (
             text
           )}

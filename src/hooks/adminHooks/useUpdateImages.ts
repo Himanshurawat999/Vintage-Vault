@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import apiClient from "../../api/apiClient"
 import toast from "react-hot-toast";
 import type { updateProductImageInput } from "../../types/product.schema";
@@ -10,7 +10,6 @@ export const updateImages = async ({id,payload}:{id:string,payload: updateProduc
 }
     
 export const useUpdateImages = () => {
-    const queryClient = useQueryClient();
     return useMutation({
         mutationFn: updateImages,
         onSuccess: (data) => {
@@ -18,7 +17,6 @@ export const useUpdateImages = () => {
                 position: 'top-center',
                 duration: 2000,
             });
-            // queryClient.invalidateQueries(['products'])
         },
         onError: (error: any) => {
             const message =

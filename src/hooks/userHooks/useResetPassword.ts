@@ -1,7 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import apiClient from "../../api/apiClient";
-import type { ResetResponse, resetInput } from "../../types/registration.schema";
+import type { ErrorResponse, ResetResponse, resetInput } from "../../types/registration.schema";
 import { toast } from "react-hot-toast";
+import type { AxiosError } from "axios";
 
 const resetPassword = async (data: resetInput): Promise<ResetResponse> => {
     const { confirmPassword, ...payload } = data; // we are doin destructing cause we don't want to pass confirmPassword to api
@@ -19,9 +20,9 @@ export const useResetPassword = () => {
                 removeDelay: 2000,
             })
         },
-        onError: (error) => {
-            console.error('Registration failed : ', error?.response?.data?.error?.message)
-            const errorMsg = error?.response?.data?.error?.message;
+        onError: (error:AxiosError) => {
+            console.error('Registration failed : ', (error?.response?.data as ErrorResponse)?.error?.message)
+            const errorMsg = (error?.response?.data as ErrorResponse)?.error?.message;
             toast.error(errorMsg, {
                 position: "top-center"
             })

@@ -11,6 +11,8 @@ import LoadingScreen from "../../components/userComponent/LoadingScreen";
 type ModalMode = "add" | "edit" | null;
 
 export function Shipping() {
+  document.title = `Vintage Vault | Shipping`;
+
   const { data: addresses, isLoading: addressesLoading } = useGetShipping();
   const { mutate: removeShipping } = useRemoveShipping();
 

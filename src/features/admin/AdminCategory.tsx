@@ -12,6 +12,8 @@ import { useDeleteCategory } from "../../hooks/adminHooks/useDeleteCategory";
 type ModalMode = "add" | "edit" | "delete" | null;
 
 const AdminCategory: React.FC = () => {
+  document.title = `Vintage Vault | Admin Category`;
+
   const [status, setStatus] = useState<string>("true");
   const [modalMode, setModalMode] = useState<ModalMode>(null);
   const [curId, setCurId] = useState<string>("");

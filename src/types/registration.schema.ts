@@ -62,6 +62,12 @@ export interface ResetResponse {
     message: string;
 }
 
+export interface ErrorResponse {
+    error: {
+      message: string;
+    };
+  }
+
 export type RegistrationInput = z.infer<typeof registrationSchema>;
 export type loginInput = z.infer<typeof loginSchema>;
 export type forgetInput = z.infer<typeof forgetSchema>;

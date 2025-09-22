@@ -9,6 +9,8 @@ import { useForgetPassword } from "../../hooks/userHooks/useForgetPassword";
 import LoadingButton from "../../components/animata/LoadingButton";
 
 const ForgetPassword = () => {
+  document.title = `Vintage Vault | Forget Password`;
+
   const { mutate, isPending } = useForgetPassword();
 
   const {

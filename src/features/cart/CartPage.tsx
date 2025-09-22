@@ -6,6 +6,8 @@ import Cart from "./Cart";
 import LoadingScreen from "../../components/userComponent/LoadingScreen";
 
 const CartPage = () => {
+  document.title = `Vintage Vault | Cart`;
+  
   const { data: cartDetails, isLoading: cartDetailLoading } = useGetCart();
   const cart = cartDetails?.data?.cart;
   const navigate = useNavigate();
@@ -31,7 +33,7 @@ const CartPage = () => {
                 </p>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-4 max-h-screen overflow-y-auto">
                 {cart?.items.map((item: any) => (
                   <Cart key={item.id} item={item} />
                 ))}

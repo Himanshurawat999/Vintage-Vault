@@ -5,6 +5,7 @@ import { useGetWishlist } from "../../hooks/userHooks/useGetWishlist";
 import WishListCard from "../../components/userComponent/WishListCard";
 
 const WishList = () => {
+  document.title = `Vintage Vault | WishList`;
   const { data: getWishlist, isLoading: getWishlistLoading } = useGetWishlist();
   const wishlist = getWishlist?.data?.wishlist;
 
@@ -20,7 +21,7 @@ const WishList = () => {
           </h3>
           <ul className="mt-10 md:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-14 gap-y-10">
             {wishlist.map((item: any) => (
-              <WishListCard key={item.id} item={item}/>
+              <WishListCard key={item.id} item={item} />
             ))}
           </ul>
         </div>

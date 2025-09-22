@@ -11,6 +11,8 @@ import { Link } from "react-router";
 import LoadingButton from "../../components/animata/LoadingButton";
 
 const RegisterPage = () => {
+  document.title = `Vintage Vault | Register`;
+
   const [showPassword, setShowPassword] = useState(false);
   const { mutate, isPending } = useRegisterUser();
 

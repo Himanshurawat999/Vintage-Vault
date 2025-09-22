@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 const Footer = () => {
   return (
     <div className="w-full px-4 pt-10 pb-4 lg:px-10 lg:pt-14 lg:mt-12 lg:pb-8 grid grid-rows-[2fr_1fr] bg-zinc-50">
@@ -5,7 +7,7 @@ const Footer = () => {
         <div>
           <h2 className="font-fraunces text-4xl mb-3">Made in India</h2>
           <p className="text-zinc-600">
-            Pilestæde 45, 1st Floor, 1112 Chandigarh, India
+            sector 17, Chandigarh, India
           </p>
           <div className="w-20 mt-8 hidden md:block">
             <img
@@ -19,9 +21,9 @@ const Footer = () => {
         <div>
           <h1 className="font-fraunces text-2xl">Collection</h1>
           <ul className="mt-4 flex flex-col gap-2 text-zinc-600">
-            <li>Products</li>
-            <li>New Arrivals</li>
-            <li>Categories</li>
+            <Link to={'/products'} className="hover:text-orange-500 hover:underline cursor-pointer">Products</Link>
+            <Link to={'/cart'} className="hover:text-orange-500 hover:underline cursor-pointer">Cart</Link>
+            <Link to={'/wishlist'} className="hover:text-orange-500 hover:underline cursor-pointer">WishList</Link>
             <li>Gift Cards</li>
           </ul>
         </div>
@@ -29,8 +31,8 @@ const Footer = () => {
         <div>
           <h1 className="font-fraunces text-2xl">About Us</h1>
           <ul className="mt-4 flex flex-col gap-2 text-zinc-600">
-            <li>Our Story</li>
-            <li>Certifications</li>
+            <Link to={'/user-profile'} className="hover:text-orange-500 hover:underline cursor-pointer">Profile</Link>
+            <Link to={'/orders-history'} className="hover:text-orange-500 hover:underline cursor-pointer">Order History</Link>
             <li>Careers</li>
             <li>Contact</li>
           </ul>

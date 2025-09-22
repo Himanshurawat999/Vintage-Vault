@@ -2,8 +2,14 @@ import { useNavigate, useParams } from "react-router";
 import { useOrderById } from "../../hooks/userHooks/useOrderById";
 import NavBar from "../../components/userComponent/NavBar";
 import LoadingScreen from "../../components/userComponent/LoadingScreen";
+import { useState } from "react";
 
 const OrderItem = () => {
+  document.title = `Vintage Vault | Order Detail`;
+
+  const [hoveredItemId, setHoveredItemId] = useState<string | null>(null);
+  console.log(hoveredItemId);
+
   const { id } = useParams();
   console.log(id);
   const { data: orderItem, isLoading: orderItemLoading } = useOrderById(id);
@@ -12,7 +18,7 @@ const OrderItem = () => {
 
   const navigate = useNavigate();
 
-  const handleClick = (productId:string) => {
+  const handleClick = (productId: string) => {
     navigate(`/products/${productId}`);
   };
 
@@ -52,7 +58,7 @@ const OrderItem = () => {
             </div>
           </div>
 
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto overflow-y-clip">
             <table className="table">
               <thead>
                 <tr>
@@ -66,8 +72,18 @@ const OrderItem = () => {
               </thead>
               <tbody>
                 {order?.orderItems?.map((item: any) => (
-                  <tr key={item.id} className="border-b border-zinc-400">
-                    <td onClick={() => handleClick(item.productId)} className="hover:text-orange-500 hover:underline cursor-pointer">{item.productName}</td>
+                  <tr
+                    key={item.id}
+                    onMouseEnter={() => setHoveredItemId(item.id)}
+                    onMouseLeave={() => setHoveredItemId(null)}
+                    className="border-b border-zinc-400 relative"
+                  >
+                    <td
+                      onClick={() => handleClick(item.productId)}
+                      className="hover:text-orange-500 hover:underline cursor-pointer"
+                    >
+                      {item.productName}
+                    </td>
                     <td>{item.quantity}</td>
                     <td>
                       {item.weight} {item.weightUnit}
@@ -81,6 +97,15 @@ const OrderItem = () => {
                         Number(item.totalPrice)
                       ).toFixed(2)}
                     </td>
+                    {hoveredItemId === item.id && (
+                      <td className="w-40 h-40 absolute -top-10 left-1/3  z-10">
+                        <img
+                          src={item.product.images[0]}
+                          alt={item.productName}
+                          className="w-full h-full object-cover"
+                        />
+                      </td>
+                    )}
                   </tr>
                 ))}
                 <tr>

@@ -3,12 +3,16 @@ const HeroSection = () => {
     <div id="HeroSection" className="pt-16 w-full">
       <div className="w-full relative">
         <video
-          src="/Video/HeroVid.mp4"
           autoPlay
           loop
           muted
+          playsInline
+          preload="metadata"
+          poster="/Images/heroImg.png"
           className="w-full h-[550px] lg:h-full object-cover"
-        ></video>
+        >
+          <source src="/Video/HeroVid.mp4" type="video/mp4" />
+        </video>
         <div className="w-full h-full bg-black/35 absolute top-0"></div>
         <div className="text-zinc-100 absolute bottom-20 md:bottom-32 lg:bottom-40 left-10 w-[70%] sm:w-[80%]">
           <h1 className="text-xl md:text-4xl lg:text-7xl font-fraunces font-extralight">

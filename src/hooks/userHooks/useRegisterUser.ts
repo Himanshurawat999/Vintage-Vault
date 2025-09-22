@@ -1,8 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 import apiClient from "../../api/apiClient";
-import type { RegisterResponse, RegistrationInput } from "../../types/registration.schema";
+import type { ErrorResponse, RegisterResponse, RegistrationInput } from "../../types/registration.schema";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router";
+import type { AxiosError } from "axios";
 // const navigate = useNavigate();
 
 const registerUser = async (data: RegistrationInput): Promise<RegisterResponse> => {
@@ -22,9 +23,9 @@ export const useRegisterUser = () => {
                 duration: 2000,
             });
         },
-        onError: (error) => {
-            console.error('Registration failed : ', error?.response?.data?.error?.message)
-            const errorMsg = error?.response?.data?.error?.message;
+        onError: (error:AxiosError) => {
+            console.error('Registration failed : ', (error?.response?.data as ErrorResponse)?.error?.message)
+            const errorMsg = (error?.response?.data as ErrorResponse)?.error?.message;
             toast.error(errorMsg, {
                 position: "top-center",
                 duration: 2000,
