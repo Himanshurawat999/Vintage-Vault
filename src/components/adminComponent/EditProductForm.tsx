@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import LoadingButton from "../../components/animata/LoadingButton";
 import { useEditProduct } from "../../hooks/adminHooks/useEditProduct";
@@ -45,7 +45,7 @@ const EditProductForm = ({
     setValue,
     formState: { errors, isSubmitting },
   } = useForm<AddProductFormValues>({
-    resolver: zodResolver(productSchema),
+    resolver: zodResolver(productSchema) as unknown as Resolver<AddProductFormValues, any>,
     defaultValues: {
       name: "",
       description: "",
@@ -116,10 +116,10 @@ const EditProductForm = ({
     // console.log(e.target.value);
     if (e.key === "Enter") {
       e.preventDefault();
-      const tag = e.target.value.trim();
+      const tag = (e.target as HTMLInputElement).value.trim();
       if (tag) {
         addTag(tag);
-        e.target.value = "";
+        (e.target as HTMLInputElement).value = "";
       }
     }
   };

@@ -16,24 +16,20 @@ const existingUrlSchema = z.string().url("Invalid image URL");
 
 const imageOrUrlSchema = z.union([imageFileSchema, existingUrlSchema]);
 
+const imagesArraySchema = z.preprocess((val) => {
+  if (val instanceof FileList) return Array.from(val as FileList);
+  return val;
+}, z.array(imageOrUrlSchema).min(1, "At least one image is required")) as z.ZodType<(string | File)[]>;
+
 export const productSchema = z.object({
   name: z.string().min(1, "name can't be empty"),
   description: z.string().min(1, "description can't be empty"),
   price: z.string().min(1, "Price is required"),
   weight: z.string().min(1, "Weight is required"),
-  weightUnit: z.enum(['kg', 'g', 'l', 'ml'], "weight can't be empty"),
+  weightUnit: z.enum(['kg', 'g', 'lb', 'oz'], "weight can't be empty"),
   isActive: z.boolean(),
   inventoryQuantity: z.number().min(1, "can't be empty"),
-  images: z
-    .union([
-      z
-        .instanceof(FileList)
-        .transform(list => Array.from(list))
-        .pipe(z.array(imageFileSchema)),
-      z.array(existingUrlSchema),
-      z.array(imageOrUrlSchema) // mixed
-    ])
-    .refine(val => val.length > 0, { message: "At least one image is required" }),
+  images: imagesArraySchema,
   tags: z.array(z.string().min(1, "tags can't be empty"))
     .refine(val => val.length > 0, { message: "It's empty" }),
   categoryId: z.string().min(1, "category can't be empty"),

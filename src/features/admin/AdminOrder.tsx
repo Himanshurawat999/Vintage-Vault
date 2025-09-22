@@ -8,10 +8,12 @@ import LoadingScreen from "../../components/userComponent/LoadingScreen";
 
 type ModalMode = "status" | "confirmPayment" | "cancel" | null;
 
+type status = "pending" | "confirmed" | "processing" | "shipped" | "delivered" | "cancelled" | "refunded" | "returned";
+
 const AdminOrder: React.FC = () => {
   document.title = `Vintage Vault | Admin Order`;
 
-  const [status, setStatus] = useState<string>("pending");
+  const [status, setStatus] = useState<status>("pending");
   const { data: ordersData, isLoading: orderDataLoading } = useGetOrder(status);
   const [modalMode, setModalMode] = useState<ModalMode>(null);
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
@@ -46,7 +48,8 @@ const AdminOrder: React.FC = () => {
 
   const handleSeleted = (e: React.ChangeEvent<HTMLSelectElement>) => {
     console.log(e.target.value);
-    setStatus(e.target.value);
+    const selected = e.target.value as status
+    setStatus(selected);
   };
 
   const renderModalContent = () => {

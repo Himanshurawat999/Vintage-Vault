@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, type Resolver, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import LoadingButton from "../../components/animata/LoadingButton";
 import { ImageOff, X } from "lucide-react";
@@ -23,7 +23,7 @@ const AddProductForm = ({ onSuccess }: { onSuccess: () => void }) => {
     setValue,
     formState: { errors, isSubmitting },
   } = useForm<AddProductFormValues>({
-    resolver: zodResolver(productSchema),
+    resolver: zodResolver(productSchema) as unknown as Resolver<AddProductFormValues, any>,
   });
 
   // tags handling (local state + RHF sync)
@@ -74,7 +74,7 @@ const AddProductForm = ({ onSuccess }: { onSuccess: () => void }) => {
     prevImagesRef.current = updatedImages;
   };
 
-  const onSubmit = async (data: AddProductFormValues) => {
+  const onSubmit: SubmitHandler<AddProductFormValues> = async (data) => {
     try {
       console.log(data)
       const newFiles = (data.images || []).filter(
