@@ -1,69 +1,65 @@
-# React + TypeScript + Vite
+# Vintage Vault
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive e-commerce storefront built with React, TypeScript, Tailwind CSS and Framer Motion — designed for selling vintage / one-of-a-kind items.
 
-Currently, two official plugins are available:
+## Table of Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Demo](#demo)  
+- [Features](#features)  
+- [Tech Stack](#tech-stack)  
+- [Getting Started](#getting-started)  
+  - [Prerequisites](#prerequisites)  
+  - [Installation](#installation)  
+  - [Running Locally](#running-locally)  
+  - [Building & Deployment](#building-deployment)  
+- [Folder Structure](#folder-structure)  
+- [Usage](#usage)  
+- [Contributing](#contributing)  
+- [License](#license)  
+- [Acknowledgements](#acknowledgements)
 
-## Expanding the ESLint configuration
+## Demo
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Live demo: [https://vintage-vault-lovat.vercel.app/](https://vintage-vault-lovat.vercel.app/)
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Features
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- Responsive UI built with Tailwind CSS, designed for mobile and desktop.  
+- Smooth animated transitions and micro-interactions using Framer Motion.  
+- Full TypeScript support for type-safe React components.  
+- Admin dashboard for managing products, categories, and shipping (shipping management module included).  
+- Data fetching and state management via React Query.  
+- Iconography using Lucide Icons.  
+- Modular code structure: components, hooks, services, forms, etc.  
+- Easily deployable to Vercel.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Tech Stack
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **Frontend**  
+  - React (with Create React App or Vite)  
+  - TypeScript  
+  - Tailwind CSS  
+  - Framer Motion  
+  - React Query  
+  - Lucide Icons  
+- **Backend / API** (optional/mock)  
+  - REST or GraphQL API (you may plug in your own backend)  
+- **Deployment**  
+  - Vercel or any static hosting / serverless backend
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Getting Started
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Prerequisites
+
+- Node.js (v14 or above) & npm or Yarn  
+- Git  
+- (Optional) A backend or mock server to provide product, category, shipping data
+
+### Installation
+
+```bash
+git clone https://github.com/your-username/vintage-vault.git
+cd vintage-vault
+npm install
+# or
+yarn install
