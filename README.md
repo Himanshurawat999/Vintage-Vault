@@ -143,6 +143,3 @@ This project is licensed under the [MIT License](LICENSE).
 * Icon set by Lucide Icons.
 * Inspired by modern admin dashboards and e-commerce storefronts.
 
----
-
-Happy building! 🎉 Feel free to modify this README further with screenshots, GIFs of animations, links to API docs, or any other project-specific details.
